@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/DELL/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_signup.xml" value="0.2" />
-        <entry key="..\:/Users/DELL/Store-Application/app/src/main/res/layout/activity_main.xml" value="0.17864583333333334" />
-        <entry key="..\:/Users/DELL/Store-Application/app/src/main/res/layout/item_ui.xml" value="0.17864583333333334" />
+        <entry key="..\:/Store-Application/app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.133" />
+        <entry key="..\:/Store-Application/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.133" />
+        <entry key="..\:/Store-Application/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.133" />
+        <entry key="..\:/Store-Application/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.133" />
+        <entry key="..\:/Store-Application/app/src/main/res/drawable/ic_menu.xml" value="0.133" />
+        <entry key="..\:/Store-Application/app/src/main/res/drawable/shap_btn.xml" value="0.133" />
+        <entry key="..\:/Store-Application/app/src/main/res/layout/activity_main.xml" value="0.22864583333333333" />
+        <entry key="..\:/Store-Application/app/src/main/res/layout/activity_profile.xml" value="0.22864583333333333" />
+        <entry key="..\:/Store-Application/app/src/main/res/layout/nav_header.xml" value="0.22864583333333333" />
+        <entry key="..\:/Store-Application/app/src/main/res/menu/nav_menu.xml" value="0.22864583333333333" />
       </map>
     </option>
   </component>
