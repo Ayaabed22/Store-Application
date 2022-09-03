@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/signin"
-        android:name="com.example.storeapplication.Signin"
+        android:name="com.example.storeapplication.login.Signin"
         android:label="fragment_signin"
         tools:layout="@layout/fragment_signin" >
         <action

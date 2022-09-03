@@ -50,7 +50,6 @@ class HomeFragment : Fragment() {
                     Log.i(TAG, "onResponse: "+ response.body())
                     val productsRVAdapter: ProductsRVAdapter =
                         ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
-//                    productsRVAdapter.notifyDataSetChanged()
                     binding.productsRV.adapter = productsRVAdapter
                 }
             }
