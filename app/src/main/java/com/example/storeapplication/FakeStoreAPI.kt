@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface FakeStoreAPI {
 
     @GET("/products")
-    fun getProducts() : Call<GetProductResponse>
+    fun getProducts() : Call<MutableList<GetProductResponseItem>>
 }
