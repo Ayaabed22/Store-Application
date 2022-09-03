@@ -7,4 +7,5 @@ interface FakeStoreAPI {
 
     @GET("/products")
     fun getProducts() : Call<GetProductResponse>
+
 }
