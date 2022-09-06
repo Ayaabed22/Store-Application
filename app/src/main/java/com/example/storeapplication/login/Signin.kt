@@ -50,9 +50,13 @@ class Signin : Fragment() {
                 call: retrofit2.Call<LoginResponse>,
                 response: Response<LoginResponse>
             ) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
+                    Log.i(TAG, "onResponse: " + response.body().toString())
+                    Log.i(TAG, "onResponse: "+ response.errorBody())
                     view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
                 }
+                else
+                    Log.i(TAG, "onResponse: "+ response.errorBody())
             }
 
             override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
