@@ -1,7 +1,6 @@
 package com.example.storeapplication.login
 
 import android.os.Bundle
-import android.telecom.Call
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,7 +21,7 @@ class Signin : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentSigninBinding.inflate(inflater,container,false)
         return binding.root
@@ -36,8 +35,8 @@ class Signin : Fragment() {
         }
 
         binding.signInBtn.setOnClickListener {
-            var userName = binding.etUserName.text.toString()
-            var password = binding.etPassword.text.toString()
+            val userName = binding.etUserName.text.toString()
+            val password = binding.etPassword.text.toString()
 
             checkEnteredData(userName,password)
         }
