@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.signup.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.example.storeapplication.RetrofitClient
+import com.example.storeapplication.UserAPI
 import com.example.storeapplication.databinding.FragmentSignupBinding
-import com.example.storeapplication.signUp.*
+import com.example.storeapplication.signup.data.Address
+import com.example.storeapplication.signup.data.Geolocation
+import com.example.storeapplication.signup.data.Name
+import com.example.storeapplication.signup.data.SignUpRequest
+import com.example.storeapplication.signup.data.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,8 +46,8 @@ class SignupFragment : Fragment() {
                 Address(
                     Geolocation("-37.3159","81.1496"),
                     "kilcoole", "7835 new road",3,"12926-3874"),"1-570-236-7033")
-
-            RetrofitClient.getClient().signUp(signUpRequest).enqueue(object: Callback<SignUpResponse>{
+            val client = RetrofitClient.getInstance()?.create(UserAPI::class.java)
+            client?.signUp(signUpRequest)?.enqueue(object: Callback<SignUpResponse>{
                 override fun onResponse(
                     call: Call<SignUpResponse>,
                     response: Response<SignUpResponse>

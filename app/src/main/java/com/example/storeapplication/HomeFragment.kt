@@ -40,10 +40,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun getProductsFromApI() {
-        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
+        val client = RetrofitClient.getInstance()?.create(ProductsAPI::class.java)
+        client?.getProducts()?.enqueue(object : Callback<MutableList<ProductItem>> {
             override fun onResponse(
-                call: Call<MutableList<GetProductResponseItem>>,
-                response: Response<MutableList<GetProductResponseItem>>
+                call: Call<MutableList<ProductItem>>,
+                response: Response<MutableList<ProductItem>>
             ) {
                 if (response.isSuccessful) {
                     showProductsOnRecyclerView(response)
@@ -51,17 +52,17 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
+            override fun onFailure(call: Call<MutableList<ProductItem>>, t: Throwable) {
                 Log.i(TAG, "onFailure: " + t.localizedMessage)
             }
 
         })
     }
 
-    private fun showProductsOnRecyclerView(response: Response<MutableList<GetProductResponseItem>>) {
+    private fun showProductsOnRecyclerView(response: Response<MutableList<ProductItem>>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
-        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
+        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<ProductItem>)
         binding.productsRV.adapter = productsRVAdapter    }
 
 
