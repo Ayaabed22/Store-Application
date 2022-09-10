@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
         val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
         binding.productsRV.adapter = productsRVAdapter    }
 
+
     private fun openNavigationDrawer() {
 
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
