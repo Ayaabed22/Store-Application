@@ -1,6 +1,5 @@
 package com.example.storeapplication
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class HomeFragment : Fragment() {
+open class HomeFragment : Fragment(),productClick{
 
     private val TAG = "HomeFragment"
     lateinit var  binding: FragmentHomeBinding
@@ -63,8 +62,10 @@ class HomeFragment : Fragment() {
     private fun showProductsOnRecyclerView(response: Response<MutableList<GetProductResponseItem>>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
-        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
+        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
         binding.productsRV.adapter = productsRVAdapter    }
+
+
 
     private fun openNavigationDrawer() {
 
@@ -74,4 +75,10 @@ class HomeFragment : Fragment() {
             binding.drawableLayout.openDrawer(GravityCompat.START)
         }
     }
+
+    override fun itemClick(productid: Int) {
+        view?.findNavController()?.navigate(R.id.action_homeFragment_to_deatilesFragment)
+
+    }
+
 }
