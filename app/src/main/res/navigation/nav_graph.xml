@@ -23,17 +23,26 @@
         android:name="com.example.storeapplication.SignupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.storeapplication.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_deatilesFragment"
-            app:destination="@id/deatilesFragment" />
+            app:destination="@id/deatilesFragment" >
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/deatilesFragment"
-        android:name="com.example.storeapplication.DeatilesFragment"
+        android:name="com.example.storeapplication.DetailsFragment"
         android:label="fragment_deatiles"
-        tools:layout="@layout/fragment_deatiles" />
+        tools:layout="@layout/fragment_deatiles">
+        <argument
+            android:name="detailsArgs"
+            app:argType="integer" />
+
+    </fragment>
+
 </navigation>

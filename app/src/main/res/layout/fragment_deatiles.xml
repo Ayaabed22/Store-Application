@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DeatilesFragment">
+        tools:context=".DetailsFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBar"
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rating"
-            app:layout_constraintBottom_toTopOf="@id/itemid"
+            app:layout_constraintBottom_toTopOf="@id/product_id"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@id/ratingbar"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
             android:rating="2"
             android:layout_margin="11dp"
             android:stepSize="0.1"
-            app:layout_constraintBottom_toTopOf="@id/itemid"
+            app:layout_constraintBottom_toTopOf="@id/product_id"
             app:layout_constraintEnd_toStartOf="@id/topAppBar2"
             app:layout_constraintStart_toEndOf="@id/tv_rating"
             app:layout_constraintTop_toBottomOf="@id/product_image" />
@@ -89,11 +89,11 @@
 
         <TextView
             android:layout_margin="11dp"
-            android:id="@+id/itemid"
+            android:id="@+id/product_id"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="18dp"
-            android:text="1"
+            tools:text="1"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,27 +101,26 @@
 
         <TextView
 
-            android:id="@+id/datails_name"
+            android:id="@+id/product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="11dp"
-            android:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"
+            tools:text="masklakpfok"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/itemid" />
+            app:layout_constraintTop_toBottomOf="@id/product_id" />
 
 
         <TextView
-
-            app:layout_constraintTop_toBottomOf="@id/datails_name"
-            android:id="@+id/details_description"
+            app:layout_constraintTop_toBottomOf="@id/product_name"
+            android:id="@+id/product_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
-            android:text="Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday"
             android:textSize="15sp"
+            tools:text="akdnovjpokdookc[pamdlckpskdpok"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -130,11 +129,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/details_price"
+            android:id="@+id/product_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="109.95"
-            android:textSize="30dp" />
+            tools:text="109.25"
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/button"
@@ -142,7 +141,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_baseline_shopping_cart_24"
             android:text="Add to Cart"
-            android:textSize="10dp"
+            android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

@@ -9,7 +9,7 @@ data class Rating(
 
 data class GetProductResponseItem(
 
-	@SerializedName("id") val id : Int,
+	@SerializedName("id") val productId : Int,
 	@SerializedName("title") val title : String,
 	@SerializedName("price") val price : Double,
 	@SerializedName("description") val description : String,
