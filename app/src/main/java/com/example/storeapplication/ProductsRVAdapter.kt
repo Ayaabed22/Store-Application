@@ -10,11 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.storeapplication.databinding.ProductsItemUiBinding
 import com.squareup.picasso.Picasso
 
-class ProductsRVAdapter(private var productsList: MutableList<GetProductResponseItem>,
-                        private val ProductClick: ProductClick
-)
-
-    :RecyclerView.Adapter<ProductsRVAdapter.ProductsViewHolder>() {
+class ProductsRVAdapter(private var productsList: MutableList<GetProductResponseItem>,var Productclick:ProductClick
+) :RecyclerView.Adapter<ProductsRVAdapter.ProductsViewHolder>() {
 
 
 
@@ -27,8 +24,9 @@ class ProductsRVAdapter(private var productsList: MutableList<GetProductResponse
         holder.productTitle.text = productsList[position].title
         holder.productPrice.text = productsList[position].price.toString()
 
-        holder.productImage.setImageResource(Picasso.get().load(productsList[position].image).into(holder.productImage))
-        
+     Picasso.get().load(productsList[position].image).into(holder.productImage)
+
+        holder.itemView.setOnClickListener{Productclick.itemClick(holder.adapterPosition) }
 
     }
 
@@ -48,8 +46,7 @@ class ProductsRVAdapter(private var productsList: MutableList<GetProductResponse
             productPrice = itemView.findViewById(R.id.product_price)
         }
     }
-}
 
-private fun ImageView.setImageResource(into: Unit) {
 
 }
+
