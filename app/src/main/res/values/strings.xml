@@ -16,4 +16,6 @@
     <string name="search">Search</string>
     <string name="sort">Sort</string>
     <string name="rating">\@String_rating</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="image">image</string>
 </resources>
