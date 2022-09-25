@@ -1,6 +1,5 @@
 package com.example.storeapplication
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,12 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.storeapplication.databinding.FragmentHomeBinding
+import com.example.storeapplication.productDetails.ProductClick
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class HomeFragment : Fragment(),ProductClick {
+class HomeFragment : Fragment(), ProductClick {
 
     private val TAG = "HomeFragment"
     lateinit var  binding: FragmentHomeBinding

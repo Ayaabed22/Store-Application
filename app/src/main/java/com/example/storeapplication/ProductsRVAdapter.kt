@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.storeapplication.databinding.ProductsItemUiBinding
+import com.example.storeapplication.productDetails.ProductClick
 import com.squareup.picasso.Picasso
 
-class ProductsRVAdapter(private var productsList: MutableList<GetProductResponseItem>,var Productclick:ProductClick
+class ProductsRVAdapter(private var productsList: MutableList<GetProductResponseItem>,var Productclick: ProductClick
 ) :RecyclerView.Adapter<ProductsRVAdapter.ProductsViewHolder>() {
 
 

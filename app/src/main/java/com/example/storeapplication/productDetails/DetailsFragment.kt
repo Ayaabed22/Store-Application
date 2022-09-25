@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.productDetails
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentDeatilesBinding
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -16,8 +18,8 @@ import retrofit2.Response
 
 
 class DetailsFragment : Fragment(){
-    lateinit var binding: FragmentDeatilesBinding
-    private lateinit var args :DetailsFragmentArgs
+    private lateinit var binding: FragmentDeatilesBinding
+    private lateinit var args : DetailsFragmentArgs
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,36 +40,30 @@ class DetailsFragment : Fragment(){
 
 
     private fun getProductDetails(productId: Int) {
-        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>>{
+        RetrofitClient.getClient().getProductDetails((productId+1).toString()).enqueue(object : Callback<GetProductResponseItem>{
             override fun onResponse(
-                call: Call<MutableList<GetProductResponseItem>>,
-                response: Response<MutableList<GetProductResponseItem>>
+                call: Call<GetProductResponseItem>,
+                response: Response<GetProductResponseItem>
             ) {
                 if (response.isSuccessful){
-                    Log.i(TAG, "onResponse: "+ response.body())
-                    val myProduct = response.body()?.find { it.productId == (productId+1) }
-
-                    Log.i(TAG, "onResponse: $myProduct")
-
-                    if (myProduct != null) {
-                        setData(myProduct)
-                    }
+                    setData(response)
+                    Log.i(TAG, "onResponse: " + response.body())
                 }
             }
 
-            override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                Log.i(TAG, "onFailure: " +t.localizedMessage)
+            override fun onFailure(call: Call<GetProductResponseItem>, t: Throwable) {
+                Log.i(TAG, "onFailure: "+t.localizedMessage)
             }
 
         })
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setData(product:GetProductResponseItem) {
-        binding.productName.text = product.title
-        binding.productDescription.text = product.description
-        binding.productPrice.text = "EGP: ${product.price}"
-        Picasso.get().load(product.image).into(binding.productImage)
+    private fun setData(response:Response<GetProductResponseItem>) {
+        binding.productName.text = response.body()?.title
+        binding.productDescription.text = response.body()?.description
+        binding.productPrice.text = "EGP: ${response.body()?.price}"
+        Picasso.get().load(response.body()?.image).into(binding.productImage)
     }
 
     }

@@ -6,10 +6,7 @@ import com.example.storeapplication.login.LoginResponse
 import com.example.storeapplication.signUp.SignUpRequest
 import com.example.storeapplication.signUp.SignUpResponse
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface FakeStoreAPI {
 
@@ -21,4 +18,7 @@ interface FakeStoreAPI {
 
     @POST("/users")
     fun signUp(@Body signUpRequest: SignUpRequest) : Call<SignUpResponse>
+
+    @GET("products/{id}")
+    fun getProductDetails(@Path("id") id:String): Call<GetProductResponseItem>
 }
