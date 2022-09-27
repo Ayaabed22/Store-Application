@@ -18,4 +18,12 @@
     <string name="street">Street</string>
     <string name="number">Number</string>
     <string name="zip_code">Zip Code</string>
+    <string name="product_image">Product Image</string>
+    <string name="minusButton">minusButton</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
+    <string name="jewelery">jewelery</string>
+    <string name="electronics">electronics</string>
+    <string name="Close">Close</string>
+    <string name="Open">Open</string>
 </resources>
