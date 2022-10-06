@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
@@ -13,7 +14,7 @@ import com.example.storeapplication.databinding.FragmentSigninBinding
 import retrofit2.Callback
 import retrofit2.Response
 
-class Signin : Fragment() {
+class Signin: Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
     private val TAG = "Signin"
@@ -51,7 +52,15 @@ class Signin : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     Log.i(TAG, "onResponse: " + response.body().toString())
-                    Log.i(TAG, "onResponse: "+ response.errorBody())
+
+                    val shared = requireActivity().getSharedPreferences("token",
+                        AppCompatActivity.MODE_PRIVATE)
+
+                    val tokenEditor = shared.edit()
+                    tokenEditor.putString("token", response.body().toString())
+
+                    tokenEditor.apply()
+
                     view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
                 }
                 else
