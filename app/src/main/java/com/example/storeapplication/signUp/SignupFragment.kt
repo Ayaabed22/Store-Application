@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.signUp
 
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentSignupBinding
-import com.example.storeapplication.signUp.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,8 +61,6 @@ class SignupFragment : Fragment() {
                     }
 
                 })
-
-            
 
         }
     }

@@ -42,6 +42,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
         getProductsFromApI()
 
 
+
         binding.navView.setNavigationItemSelectedListener(this)
     }
 
@@ -68,7 +69,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
         val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
-        binding.productsRV.adapter = productsRVAdapter    }
+        binding.productsRV.adapter = productsRVAdapter
+    }
 
 
     private fun openNavigationDrawer() {
@@ -84,7 +86,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
         when(item.itemId){
             R.id.nav_cart->
             {
-                Toast.makeText(requireContext(),"cart item",Toast.LENGTH_LONG).show()
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_cartFragment)
 
             }
