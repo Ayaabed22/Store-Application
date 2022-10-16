@@ -25,8 +25,4 @@ interface FakeStoreAPI {
 
     @GET("carts/user/{id}")
     fun getUserCarts(@Path("id") id: Int) : Call<MutableList<CartResponse>>
-
-    @GET("/products/{id}")
-    fun getProductDetails(@Path("id") id:Int): Call<GetProductResponseItem>
-
 }

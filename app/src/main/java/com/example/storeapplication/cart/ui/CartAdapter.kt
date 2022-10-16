@@ -19,7 +19,7 @@ class CartAdapter(private val cartList: MutableList<GetProductResponseItem>)
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         holder.binding.productTitle.text = cartList[position].title
         holder.binding.productPrice.text = "EGP: ${cartList[position].price}"
-//        holder.binding.count.text = cartList[position].
+        holder.binding.count.text = cartList[position].quantity.toString()
         Picasso.get().load(cartList[position].image).into(holder.binding.productImage)
     }
 

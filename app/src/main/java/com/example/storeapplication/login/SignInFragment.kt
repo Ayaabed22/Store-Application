@@ -19,7 +19,6 @@ import retrofit2.Response
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
-    private val TAG = "Signin"
 
 
     override fun onCreateView(
@@ -34,6 +33,7 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         binding.signUpBtn.setOnClickListener {
             view.findNavController().navigate(R.id.action_signin_to_signupFragment)
         }
@@ -41,10 +41,10 @@ class SignInFragment : Fragment() {
         binding.signInBtn.setOnClickListener {
             val userName = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
+            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
 
-            checkEnteredData(userName,password)
+//            checkEnteredData(userName,password)
         }
-
     }
 
     private fun checkEnteredData(userName:String , password:String) {
@@ -97,5 +97,9 @@ class SignInFragment : Fragment() {
         val editor = sharedPreference.edit()
         editor.putString("userData",userData.toString())
         editor.apply()
+    }
+
+    companion object {
+        private const val  TAG = "SignIn"
     }
 }

@@ -12,7 +12,6 @@ import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.CartResponse
 import com.example.storeapplication.cart.data.ProductsItem
 import com.example.storeapplication.databinding.FragmentCartBinding
-import com.example.storeapplication.login.SignInFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,9 +19,6 @@ import retrofit2.Response
 class CartFragment : Fragment() {
     private val TAG = "CartFragment"
     private lateinit var binding:FragmentCartBinding
-    var cartList:MutableList<GetProductResponseItem> = mutableListOf()
-
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -42,14 +38,17 @@ class CartFragment : Fragment() {
                 if (response.isSuccessful) {
                     Log.i(TAG, "onResponse: "+ response.body())
 
-                    response.body()!!.all {
-                        Log.i(TAG, "on All :" + it.products)
-                        getProductDetails(it.products!!)
+                    response.body()?.let {responseBody->
+                        val cartItems = buildList {
+                            responseBody.forEach {
+                                it.products?.let { it1 -> addAll(it1.toMutableList()) }
+                            }
+                        }
+                        getProductDetails(cartItems)
                         true
                     }
                 }
             }
-
             override fun onFailure(call: Call<MutableList<CartResponse>>, t: Throwable) {
                 Log.i(TAG, "onFailure: " + t.localizedMessage)
                 Toast.makeText(requireContext(),"Cart Failure",Toast.LENGTH_LONG).show()
@@ -58,40 +57,44 @@ class CartFragment : Fragment() {
     }
 
 
-    private fun getProductDetails(productList: List<ProductsItem?>?){
+    private fun getProductDetails(cartItems: List<ProductsItem?>?){
         //crate an empty list of products
         //get All Products from api
         //if response successful create for loop on productList
         //matching id on response by using filter method
         //if the item is found add the item to the empty list
         //outside the for loop return the new list of products
+        val emptyList:ArrayList<GetProductResponseItem> = ArrayList()
 
-        for (i in productList!!.indices){
-            val productID = productList[i]?.productId
-            Log.i(TAG, "getProductDetails: $productID")
-            val quantity = productList[i]?.quantity
-
-            productID?.let {
-                RetrofitClient.getClient().getProductDetails(it).enqueue(object : Callback<GetProductResponseItem> {
-                        override fun onResponse(
-                            call: Call<GetProductResponseItem>,
-                            response: Response<GetProductResponseItem>
-                        ) {
-                            if (response.isSuccessful) {
-                                Log.i(TAG, "onResponse: " + response.body())
-                                cartList.add(response.body()?.copy()!!)
-                                Log.i(TAG, "NEW CART : $cartList")
-                                setDataOnRV(cartList)
+        RetrofitClient.getClient().getProducts()
+            .enqueue(object : Callback<MutableList<GetProductResponseItem>> {
+                override fun onResponse(
+                    call: Call<MutableList<GetProductResponseItem>>,
+                    response: Response<MutableList<GetProductResponseItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.i(TAG, "onResponse: " + response.body())
+                        val allProductsList = response.body()
+                        cartItems?.let {cartItems->
+                            for (cartItem in cartItems) {
+                               val newCartItem =  allProductsList?.find { it.id == cartItem?.productId }?.copy(quantity = cartItem?.quantity)
+                               newCartItem?.let {
+                                emptyList.add(it)
                             }
+                            }
+                            setDataOnRV(emptyList)
                         }
-                        override fun onFailure(call: Call<GetProductResponseItem>, t: Throwable) {
-                            Log.i(TAG, "onFailure: " + t.localizedMessage)
-                        }
-                    })
-            }
-        }
-    }
+                    }
+                }
 
+                override fun onFailure(
+                    call: Call<MutableList<GetProductResponseItem>>,
+                    t: Throwable
+                ) {
+                    Log.i(TAG, "onFailure: " + t.localizedMessage)
+                }
+            })
+    }
     private fun setDataOnRV(cartList: MutableList<GetProductResponseItem>) {
         val cartAdapter = CartAdapter(cartList)
         binding.CartRV.adapter = cartAdapter
