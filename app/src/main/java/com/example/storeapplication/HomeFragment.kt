@@ -1,6 +1,5 @@
 package com.example.storeapplication
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -64,6 +63,7 @@ class HomeFragment : Fragment() {
         binding.productsRV.layoutManager = layoutManager
         val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
         binding.productsRV.adapter = productsRVAdapter    }
+
 
     private fun openNavigationDrawer() {
 
