@@ -73,8 +73,8 @@ class HomeFragment : Fragment(), ProductClick {
         } else {
             binding.drawableLayout.openDrawer(GravityCompat.START)
         }
-    }
 
+    }
     override fun itemClick(productId: Int) {
             Log.i(TAG, "itemClick: $productId")
             val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(productId)
