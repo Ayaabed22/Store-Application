@@ -61,12 +61,12 @@
                     android:text="@string/electronics" />
             </com.google.android.material.tabs.TabLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/products_RV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                tools:listitem="@layout/products_item_ui" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/products_RV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            tools:listitem="@layout/products_item_ui"/>
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
