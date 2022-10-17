@@ -26,7 +26,6 @@
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:menu="@menu/menu"
                 app:navigationIconTint="@color/purple_200"
                 app:title="@string/app_name" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -44,14 +43,14 @@
             android:src="@drawable/download"/>
 
 
-
         <TextView
             android:id="@+id/tv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rating"
-            app:layout_constraintBottom_toTopOf="@id/product_id"
             android:textSize="20sp"
+
+            app:layout_constraintBottom_toTopOf="@id/product_id"
             app:layout_constraintEnd_toStartOf="@id/ratingbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/product_image" />
@@ -61,13 +60,11 @@
             style="@android:style/Widget.Material.RatingBar.Indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="false"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="2"
             android:layout_margin="11dp"
+            android:numStars="5"
             android:stepSize="0.1"
-            app:layout_constraintBottom_toTopOf="@id/product_id"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/ratingbar"
             app:layout_constraintEnd_toStartOf="@id/topAppBar2"
             app:layout_constraintStart_toEndOf="@id/tv_rating"
             app:layout_constraintTop_toBottomOf="@id/product_image" />
@@ -88,19 +85,21 @@
                 app:menu="@menu/toolbarmenu" />
         </com.google.android.material.appbar.AppBarLayout>
 
+
         <TextView
-            android:layout_margin="11dp"
             android:id="@+id/product_id"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="18dp"
-            tools:text="1"
+            android:layout_margin="11dp"
+            android:layout_marginTop="12dp"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ratingbar" />
+            app:layout_constraintTop_toBottomOf="@id/ratingbar"
+            tools:text="1" />
 
         <TextView
+
 
             android:id="@+id/product_name"
             android:layout_width="match_parent"
@@ -115,16 +114,17 @@
 
 
         <TextView
-            app:layout_constraintTop_toBottomOf="@id/product_name"
             android:id="@+id/product_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
+            android:layout_marginTop="90dp"
             android:textSize="15sp"
-            tools:text="akdnovjpokdookc[pamdlckpskdpok"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintHorizontal_bias="0.666"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/product_name"
+            tools:text="akdnovjpokdookc[pamdlckpskdpok" />
 
         <TextView
             app:layout_constraintStart_toStartOf="parent"

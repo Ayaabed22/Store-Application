@@ -1,5 +1,6 @@
 package com.example.storeapplication
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,17 +36,25 @@ class ProductsRVAdapter(private var productsList: MutableList<GetProductResponse
 
 
     class ProductsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         var productImage: ImageView
         var productTitle: TextView
         var productPrice: TextView
 
-        init{
+        init {
             productImage = itemView.findViewById(R.id.product_image)
             productTitle = itemView.findViewById(R.id.product_name)
             productPrice = itemView.findViewById(R.id.product_price)
         }
     }
-
-
+        fun filterList( productsList: MutableList<GetProductResponseItem> ) {
+            Log.e("list", productsList.toString())
+            Log.e("list", productsList.size.toString())
+            // this.dataList.clear()
+            this.productsList=productsList
+            notifyDataSetChanged()
+        }
 }
+
+
 

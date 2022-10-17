@@ -22,3 +22,5 @@ interface FakeStoreAPI {
     @GET("products/{id}")
     fun getProductDetails(@Path("id") id:String): Call<GetProductResponseItem>
 }
+//stager
+//
