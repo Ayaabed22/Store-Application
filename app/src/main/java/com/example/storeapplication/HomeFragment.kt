@@ -2,9 +2,8 @@ package com.example.storeapplication
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.resources.Compatibility.Api21Impl.inflate
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,23 +16,47 @@ import retrofit2.Response
 
 
 class HomeFragment : Fragment(), ProductClick {
-
+    private lateinit var productsRVAdapter: ProductsRVAdapter
     private val TAG = "HomeFragment"
-    lateinit var  binding: FragmentHomeBinding
-
+    lateinit var binding: FragmentHomeBinding
+    private lateinit var productsList: MutableList<GetProductResponseItem>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.topAppBar.setOnClickListener{
+       binding.topAppBar.setOnMenuItemClickListener {
+           when (it.itemId) {
+
+               R.id.searchIcon-> {
+                   Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
+                   findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
+
+
+               }
+
+               R.id.sort -> {
+                   Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
+
+
+               }
+               else->{
+                   Log.i(TAG, "onOptionsItemSelected: ")
+
+               }
+           }
+           return@setOnMenuItemClickListener true
+       }
+        
+
+        binding.topAppBar.setOnClickListener {
             openNavigationDrawer()
         }
 
@@ -41,30 +64,37 @@ class HomeFragment : Fragment(), ProductClick {
 
     }
 
+
     private fun getProductsFromApI() {
-        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
-            override fun onResponse(
-                call: Call<MutableList<GetProductResponseItem>>,
-                response: Response<MutableList<GetProductResponseItem>>
-            ) {
-                if (response.isSuccessful) {
-                    showProductsOnRecyclerView(response)
-                    Log.i(TAG, "onResponse: "+ response.body())
+        RetrofitClient.getClient().getProducts()
+            .enqueue(object : Callback<MutableList<GetProductResponseItem>> {
+                override fun onResponse(
+                    call: Call<MutableList<GetProductResponseItem>>,
+                    response: Response<MutableList<GetProductResponseItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        showProductsOnRecyclerView(response)
+                        Log.i(TAG, "onResponse: " + response.body())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                Log.i(TAG, "onFailure: " + t.localizedMessage)
-            }
+                override fun onFailure(
+                    call: Call<MutableList<GetProductResponseItem>>,
+                    t: Throwable
+                ) {
+                    Log.i(TAG, "onFailure: " + t.localizedMessage)
+                }
 
-        })
+            })
     }
 
     private fun showProductsOnRecyclerView(response: Response<MutableList<GetProductResponseItem>>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
-        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
-        binding.productsRV.adapter = productsRVAdapter    }
+        val productsRVAdapter =
+            ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>, this)
+        binding.productsRV.adapter = productsRVAdapter
+    }
 
     private fun openNavigationDrawer() {
 
@@ -76,11 +106,18 @@ class HomeFragment : Fragment(), ProductClick {
     }
 
     override fun itemClick(productId: Int) {
-            Log.i(TAG, "itemClick: $productId")
-            val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(productId)
-            findNavController().navigate(action)
-        }
+        Log.i(TAG, "itemClick: $productId")
+        val action = HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(productId)
+        findNavController().navigate(action)
     }
+
+
+
+
+
+}
+
+
 
 
 

@@ -35,6 +35,7 @@ class Signin : Fragment() {
         }
 
         binding.signInBtn.setOnClickListener {
+           // view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
             val userName = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
 
@@ -52,7 +53,7 @@ class Signin : Fragment() {
                 if (response.isSuccessful) {
                     Log.i(TAG, "onResponse: " + response.body().toString())
                     Log.i(TAG, "onResponse: "+ response.errorBody())
-                    view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
+                   view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
                 }
                 else
                     Log.i(TAG, "onResponse: "+ response.errorBody())
