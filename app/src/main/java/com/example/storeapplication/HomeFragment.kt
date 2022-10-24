@@ -23,7 +23,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
-    var category: String = ""
+    private var category: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
