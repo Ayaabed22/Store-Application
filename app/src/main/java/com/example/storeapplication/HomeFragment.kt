@@ -7,19 +7,22 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.storeapplication.databinding.FragmentHomeBinding
+import com.example.storeapplication.favourite.ui.ItemClick
+import com.example.storeapplication.favourite.data.FavouriteDatabase
+import com.example.storeapplication.favourite.data.FavouriteModel
+import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.google.android.material.navigation.NavigationView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
+class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener, ItemClick {
 
     private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
@@ -41,8 +44,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
         }
         getProductsFromApI()
 
-
-
         binding.navView.setNavigationItemSelectedListener(this)
     }
 
@@ -61,20 +62,18 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
             override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
                 Log.i(TAG, "onFailure: " + t.localizedMessage)
             }
-
         })
     }
 
     private fun showProductsOnRecyclerView(response: Response<MutableList<GetProductResponseItem>>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
-        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>)
+        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
         binding.productsRV.adapter = productsRVAdapter
     }
 
 
     private fun openNavigationDrawer() {
-
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawableLayout.closeDrawer(GravityCompat.START)
         } else {
@@ -93,6 +92,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
             {
                 Toast.makeText(requireContext(),"Favourite item",Toast.LENGTH_LONG).show()
                 Log.i(TAG, "onNavigationItemSelected: " + "favourite item")
+                view?.findNavController()?.navigate(R.id.action_homeFragment_to_favouriteFragment)
             }
             R.id.nav_profile->
             {
@@ -102,5 +102,10 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener{
         }
         binding.drawableLayout.close()
         return true
+    }
+
+    override fun itemClickListener(id: Int, name: String, price: Double, image: String) {
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
+        favouriteDao.insertItem(FavouriteModel(id,name, price,image))
     }
 }
