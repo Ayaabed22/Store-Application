@@ -22,8 +22,7 @@
         android:id="@+id/signupFragment"
         android:name="com.example.storeapplication.signUp.SignupFragment"
         android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup" >
-    </fragment>
+        tools:layout="@layout/fragment_signup" />
 
     <fragment
         android:id="@+id/homeFragment"
@@ -36,6 +35,10 @@
             android:id="@+id/action_homeFragment_to_deatilesFragment"
             app:destination="@id/deatilesFragment" >
         </action>
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentSearch"
+            app:destination="@id/fragmentSearch" />
+
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -52,6 +55,14 @@
             android:name="detailsArgs"
             app:argType="integer" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSearch"
+        android:name="com.example.storeapplication.FragmentSearch"
+        android:label="FragmentSearch" >
+        <action
+            android:id="@+id/action_fragmentSearch_to_deatilesFragment"
+            app:destination="@id/deatilesFragment" />
     </fragment>
 
 </navigation>

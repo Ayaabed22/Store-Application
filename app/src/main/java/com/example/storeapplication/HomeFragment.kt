@@ -2,6 +2,7 @@ package com.example.storeapplication
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -39,7 +40,31 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.topAppBar.setNavigationOnClickListener{
+       binding.topAppBar.setOnMenuItemClickListener {
+           when (it.itemId) {
+
+               R.id.searchIcon-> {
+                   Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
+                   findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
+
+
+               }
+
+               R.id.sort -> {
+                   Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
+
+
+               }
+               else->{
+                   Log.i(TAG, "onOptionsItemSelected: ")
+
+               }
+           }
+           return@setOnMenuItemClickListener true
+       }
+
+
+        binding.topAppBar.setOnClickListener {
             openNavigationDrawer()
         }
         getProductsFromApI()
@@ -61,7 +86,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                     Log.i(TAG, "onResponse: "+ response.body())
                 }
             }
-
             override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
                 Log.i(TAG, "onFailure: " + t.localizedMessage)
             }
