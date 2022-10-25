@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/signin"
-        android:name="com.example.storeapplication.login.Signin"
+        android:name="com.example.storeapplication.login.SignInFragment"
         android:label="fragment_signin"
         tools:layout="@layout/fragment_signin" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.storeapplication.SignupFragment"
+        android:name="com.example.storeapplication.signUp.SignupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" />
 
@@ -28,6 +28,9 @@
         android:id="@+id/homeFragment"
         android:name="com.example.storeapplication.HomeFragment"
         android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
         <action
             android:id="@+id/action_homeFragment_to_deatilesFragment"
             app:destination="@id/deatilesFragment" >
@@ -37,6 +40,12 @@
             app:destination="@id/fragmentSearch" />
 
     </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.storeapplication.cart.ui.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
+
     <fragment
         android:id="@+id/deatilesFragment"
         android:name="com.example.storeapplication.productDetails.DetailsFragment"

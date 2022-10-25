@@ -3,25 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawable_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".MainActivity">
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header"
-            app:menu="@menu/nav_menu" />
+        tools:context=".HomeFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,42 +32,56 @@
             </com.google.android.material.appbar.AppBarLayout>
 
 
-          <com.google.android.material.tabs.TabLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabContentStart="16dp"
-            app:tabIndicatorColor="@color/orange"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/orange">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Men" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Women" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="jewelery" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="electronics" />
-        </com.google.android.material.tabs.TabLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/products_RV"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/categoryTabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                tools:listitem="@layout/products_item_ui" />
+                android:layout_height="wrap_content"
+                app:tabContentStart="16dp"
+                app:tabIndicatorColor="@color/orange"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/orange">
 
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/men" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/women" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jewelery" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/electronics" />
+            </com.google.android.material.tabs.TabLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/products_RV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            tools:listitem="@layout/products_item_ui"/>
         </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/nav_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

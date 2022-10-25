@@ -1,12 +1,16 @@
 package com.example.storeapplication
 
-import android.widget.TextView
+import com.example.storeapplication.cart.data.CartResponse
+import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.login.LoginRequest
 import com.example.storeapplication.login.LoginResponse
 import com.example.storeapplication.signUp.SignUpRequest
 import com.example.storeapplication.signUp.SignUpResponse
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface FakeStoreAPI {
 
@@ -21,6 +25,12 @@ interface FakeStoreAPI {
 
     @GET("products/{id}")
     fun getProductDetails(@Path("id") id:String): Call<GetProductResponseItem>
+    @GET("/users")
+    fun getAllUsers(): Call<MutableList<GetAllUsersResponse>>
+
+    @GET("carts/user/{id}")
+    fun getUserCarts(@Path("id") id: Int) : Call<MutableList<CartResponse>>
+
+    @GET("/products/category/{category}")
+    fun getProductsInSpecificCategory(@Path("category") category:String):Call<MutableList<GetProductResponseItem>>
 }
-//stager
-//
