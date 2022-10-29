@@ -17,7 +17,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSigninBinding

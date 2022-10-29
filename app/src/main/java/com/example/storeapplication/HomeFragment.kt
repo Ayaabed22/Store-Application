@@ -67,7 +67,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         binding.topAppBar.setOnClickListener {
             openNavigationDrawer()
         }
-
         getProductsFromApI()
 
         binding.navView.setNavigationItemSelectedListener(this)
@@ -99,6 +98,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
         binding.productsRV.adapter = productsRVAdapter    }
 
+
     private fun openNavigationDrawer() {
 
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
@@ -127,7 +127,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.nav_profile->
             {
-                view?.findNavController()?.navigate(R.id.action_homeFragment_to_profileFragment)
+                Toast.makeText(requireContext(),"Profile item",Toast.LENGTH_LONG).show()
+                Log.i(TAG, "onNavigationItemSelected: " + "Profile item")
             }
         }
         binding.drawableLayout.close()
