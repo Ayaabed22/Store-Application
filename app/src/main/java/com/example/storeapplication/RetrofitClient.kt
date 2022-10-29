@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("https://fakestoreapi.com")
+                    .baseUrl("https://fakestoreapi.com/")
                     .build()
             }
 
