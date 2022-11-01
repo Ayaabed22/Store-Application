@@ -24,6 +24,7 @@
         android:name="com.example.storeapplication.signUp.SignupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" />
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.storeapplication.HomeFragment"
@@ -31,6 +32,14 @@
         <action
             android:id="@+id/action_homeFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_deatilesFragment"
+            app:destination="@id/deatilesFragment" >
+        </action>
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentSearch"
+            app:destination="@id/fragmentSearch" />
+
         <action
             android:id="@+id/action_homeFragment_to_favouriteFragment"
             app:destination="@id/favouriteFragment" />
@@ -44,4 +53,24 @@
         android:id="@+id/favouriteFragment"
         android:name="com.example.storeapplication.favourite.ui.FavouriteFragment"
         android:label="FavouriteFragment" />
+
+    <fragment
+        android:id="@+id/deatilesFragment"
+        android:name="com.example.storeapplication.productDetails.DetailsFragment"
+        android:label="fragment_deatiles"
+        tools:layout="@layout/fragment_deatiles">
+        <argument
+            android:name="detailsArgs"
+            app:argType="integer" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSearch"
+        android:name="com.example.storeapplication.FragmentSearch"
+        android:label="FragmentSearch" >
+        <action
+            android:id="@+id/action_fragmentSearch_to_deatilesFragment"
+            app:destination="@id/deatilesFragment" />
+    </fragment>
+
 </navigation>

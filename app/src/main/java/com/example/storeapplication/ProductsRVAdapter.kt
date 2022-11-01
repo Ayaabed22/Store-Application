@@ -17,24 +17,26 @@ class ProductsRVAdapter(private val productsList: MutableList<GetProductResponse
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
-
-        val name:String = productsList[holder.adapterPosition].title
+        val id:Int = productsList[holder.adapterPosition].id
+        val title:String = productsList[holder.adapterPosition].title
         val price:Double = productsList[holder.adapterPosition].price
         val image:String = productsList[holder.adapterPosition].image
-        val id = productsList[holder.adapterPosition].id
-        holder.binding.productName.text = name
+
+        holder.binding.productName.text = title
         holder.binding.productPrice.text = "EGP: $price"
         Picasso.get().load(image).into(holder.binding.productImage)
 
         holder.binding.favouriteIcon.setOnClickListener {
             holder.binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
-            itemClick.itemClickListener(id,name,price,image)
+            itemClick.itemClickListener(id,title,price,image)
         }
+
+        holder.itemView.setOnClickListener {itemClick.itemClickListener(id,title,price,image) }
     }
 
     override fun getItemCount(): Int {
         return productsList.size
     }
 
-    class ProductsViewHolder(val binding: ProductsItemUiBinding ):RecyclerView.ViewHolder(binding.root)
+    class ProductsViewHolder(val binding: ProductsItemUiBinding):RecyclerView.ViewHolder(binding.root)
 }

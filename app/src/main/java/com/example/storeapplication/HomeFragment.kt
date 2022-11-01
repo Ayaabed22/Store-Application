@@ -2,6 +2,7 @@ package com.example.storeapplication
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.storeapplication.databinding.FragmentHomeBinding
 import com.example.storeapplication.favourite.ui.ItemClick
@@ -17,15 +19,17 @@ import com.example.storeapplication.favourite.data.FavouriteDatabase
 import com.example.storeapplication.favourite.data.FavouriteModel
 import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener, ItemClick {
+class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener, ItemClick{
 
     private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
+    private var category: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,13 +43,39 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.topAppBar.setNavigationOnClickListener{
+       binding.topAppBar.setOnMenuItemClickListener {
+           when (it.itemId) {
+
+               R.id.searchIcon-> {
+                   Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
+                   findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
+
+               }
+
+               R.id.sort -> {
+                   Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
+
+
+               }
+               else->{
+                   Log.i(TAG, "onOptionsItemSelected: ")
+
+               }
+           }
+           return@setOnMenuItemClickListener true
+       }
+
+
+        binding.topAppBar.setOnClickListener {
             openNavigationDrawer()
         }
         getProductsFromApI()
 
         binding.navView.setNavigationItemSelectedListener(this)
-    }
+
+        binding.categoryTabs.addOnTabSelectedListener(this)
+
+        }
 
     private fun getProductsFromApI() {
         RetrofitClient.getClient().getProducts().enqueue(object: Callback<MutableList<GetProductResponseItem>> {
@@ -58,7 +88,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                     Log.i(TAG, "onResponse: "+ response.body())
                 }
             }
-
             override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
                 Log.i(TAG, "onFailure: " + t.localizedMessage)
             }
@@ -104,8 +133,52 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         return true
     }
 
-    override fun itemClickListener(id: Int, name: String, price: Double, image: String) {
-        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
-        favouriteDao.insertItem(FavouriteModel(id,name, price,image))
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        if (tab?.position == 0){
+            category = ""
+            getProductsFromApI()}
+        when(tab?.position){
+            1-> category = "men's clothing"
+            2-> category = "women's clothing"
+            3-> category = "jewelery"
+            4-> category = "electronics"
+        }
+        productsInSpecificCategory(category)
     }
+
+    private fun productsInSpecificCategory(category: String) {
+        RetrofitClient.getClient().getProductsInSpecificCategory(category).enqueue(object: Callback<MutableList<GetProductResponseItem>>{
+            override fun onResponse(
+                call: Call<MutableList<GetProductResponseItem>>,
+                response: Response<MutableList<GetProductResponseItem>>
+            ) {
+                if (response.isSuccessful){
+                    Log.i(TAG, "onResponse: "+response.body())
+                    showProductsOnRecyclerView(response)
+                }
+            }
+            override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
+                Log.i(TAG, "onFailure: " + t.localizedMessage)
+            }
+        })
+    }
+
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+        Log.i(TAG, "onTabUnselected: ")
+    }
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+        Log.i(TAG, "onTabReselected: ")
+    }
+
+    override fun itemClickListener(id: Int, name: String, price: Double, image: String) {
+        //add item on favourite table
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
+        favouriteDao.insertItem(FavouriteModel(id,name,price,image))
+
+        //to get product item details
+        val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(id)
+        findNavController().navigate(action)
+    }
+
 }

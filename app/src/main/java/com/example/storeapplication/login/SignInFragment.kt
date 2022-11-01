@@ -33,7 +33,6 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.signUpBtn.setOnClickListener {
             view.findNavController().navigate(R.id.action_signin_to_signupFragment)
         }
@@ -41,10 +40,10 @@ class SignInFragment : Fragment() {
         binding.signInBtn.setOnClickListener {
             val userName = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
-            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
 
-//            checkEnteredData(userName,password)
+            checkEnteredData(userName,password)
         }
+
     }
 
     private fun checkEnteredData(userName:String , password:String) {
