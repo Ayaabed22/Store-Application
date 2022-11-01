@@ -24,7 +24,6 @@
         android:name="com.example.storeapplication.signUp.SignupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" />
-
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.storeapplication.HomeFragment"
@@ -39,6 +38,9 @@
         <action
             android:id="@+id/action_homeFragment_to_fragmentSearch"
             app:destination="@id/fragmentSearch" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
 
         <action
             android:id="@+id/action_homeFragment_to_favouriteFragment"
@@ -71,6 +73,15 @@
         <action
             android:id="@+id/action_fragmentSearch_to_deatilesFragment"
             app:destination="@id/deatilesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.storeapplication.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
 
 </navigation>

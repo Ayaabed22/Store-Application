@@ -23,10 +23,14 @@ interface FakeStoreAPI {
     @POST("/users")
     fun signUp(@Body signUpRequest: SignUpRequest) : Call<SignUpResponse>
 
-    @GET("products/{id}")
-    fun getProductDetails(@Path("id") id:String): Call<GetProductResponseItem>
+    @GET("/users/{id}")
+    fun getUserData(@Path("id") id:String): Call<GetAllUsersResponse>
+
     @GET("/users")
     fun getAllUsers(): Call<MutableList<GetAllUsersResponse>>
+
+    @GET("products/{id}")
+    fun getProductDetails(@Path("id") id:String): Call<GetProductResponseItem>
 
     @GET("carts/user/{id}")
     fun getUserCarts(@Path("id") id: Int) : Call<MutableList<CartResponse>>

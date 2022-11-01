@@ -49,17 +49,12 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                R.id.searchIcon-> {
                    Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
-
                }
-
                R.id.sort -> {
                    Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
-
-
                }
                else->{
                    Log.i(TAG, "onOptionsItemSelected: ")
-
                }
            }
            return@setOnMenuItemClickListener true
@@ -101,7 +96,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         binding.productsRV.adapter = productsRVAdapter
     }
 
-
     private fun openNavigationDrawer() {
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawableLayout.closeDrawer(GravityCompat.START)
@@ -125,8 +119,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.nav_profile->
             {
-                Toast.makeText(requireContext(),"Profile item",Toast.LENGTH_LONG).show()
-                Log.i(TAG, "onNavigationItemSelected: " + "Profile item")
+                view?.findNavController()?.navigate(R.id.action_homeFragment_to_profileFragment)
             }
         }
         binding.drawableLayout.close()
