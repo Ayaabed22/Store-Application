@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.storeapplication.RetrofitClient
+import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentProfileBinding
 import com.example.storeapplication.signUp.*
 import com.google.gson.Gson
@@ -37,32 +38,38 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val shared = requireActivity().getSharedPreferences("User Data",
-            AppCompatActivity.MODE_PRIVATE)
+        val shared = requireActivity().getSharedPreferences("User Data", AppCompatActivity.MODE_PRIVATE)
 
         val userdata = shared.getString("userData", "")
 
         val gson = Gson()
         val json: String? = shared.getString("userData", "")
-        val obj: UserData = gson.fromJson(json, UserData::class.java)
+        val obj: GetAllUsersResponse? = gson.fromJson(json, GetAllUsersResponse::class.java)
 
         Log.i(TAG, "onViewCreated: $userdata")
-            getProfile(2)
+        getProfile(obj?.id.toString())
+        binding.userData = obj;
     }
 
-    private fun getProfile(id: Int) {
+    private fun getProfile(id: String) {
 
-        RetrofitClient.getClient().getUserData(id).enqueue(object: Callback<SignUpResponse> {
+        RetrofitClient.getClient().getUserData(id).enqueue(object: Callback<GetAllUsersResponse> {
             override fun onResponse(
-                call: Call<SignUpResponse>,
-                response: Response<SignUpResponse>
+                call: Call<GetAllUsersResponse>,
+                response: Response<GetAllUsersResponse>
             ) {
                 Log.i(TAG, "onResponse: "+ response.body())
+                bindData(response);
             }
 
-            override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetAllUsersResponse>, t: Throwable) {
                 Log.i(TAG, "onFailure: "+t.localizedMessage)
             }
         })
     }
+
+    private fun bindData(response: Response<GetAllUsersResponse>){
+        binding.userData = response.body()
+    }
+
 }

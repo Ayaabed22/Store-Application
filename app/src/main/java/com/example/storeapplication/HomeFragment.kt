@@ -46,18 +46,12 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                R.id.searchIcon-> {
                    Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
-
-
                }
-
                R.id.sort -> {
                    Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
-
-
                }
                else->{
                    Log.i(TAG, "onOptionsItemSelected: ")
-
                }
            }
            return@setOnMenuItemClickListener true
@@ -98,6 +92,11 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
         binding.productsRV.adapter = productsRVAdapter    }
 
+    override fun itemClick(productId: Int) {
+        Log.i(TAG, "itemClick: $productId")
+        val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(productId)
+        findNavController().navigate(action)
+    }
 
     private fun openNavigationDrawer() {
 
@@ -107,11 +106,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             binding.drawableLayout.openDrawer(GravityCompat.START)
         }
     }
-    override fun itemClick(productId: Int) {
-            Log.i(TAG, "itemClick: $productId")
-            val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(productId)
-            findNavController().navigate(action)
-        }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -127,8 +121,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.nav_profile->
             {
-                Toast.makeText(requireContext(),"Profile item",Toast.LENGTH_LONG).show()
-                Log.i(TAG, "onNavigationItemSelected: " + "Profile item")
+                view?.findNavController()?.navigate(R.id.action_homeFragment_to_profileFragment)
             }
         }
         binding.drawableLayout.close()

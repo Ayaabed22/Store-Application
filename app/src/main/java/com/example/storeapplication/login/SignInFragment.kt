@@ -43,6 +43,7 @@ class SignInFragment : Fragment() {
             val password = binding.etPassword.text.toString()
 
             checkEnteredData(userName,password)
+//            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
         }
 
     }
@@ -78,10 +79,9 @@ class SignInFragment : Fragment() {
             ) {
                 if (response.isSuccessful){
                     Log.i(TAG, "onResponse: " + response.body().toString())
-                    var userData = response.body()?.find { it.username == userName }
+                    val userData = response.body()?.find { it.username == userName }
                     Log.i(TAG, "User Name: " + response.body()?.find { it.username == userName })
                     safeUserData(userData)
-
                 }
             }
 
