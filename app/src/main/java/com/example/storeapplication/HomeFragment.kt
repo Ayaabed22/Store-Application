@@ -14,15 +14,18 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.storeapplication.databinding.FragmentHomeBinding
+import com.example.storeapplication.favourite.ui.ItemClick
+import com.example.storeapplication.favourite.data.FavouriteDatabase
+import com.example.storeapplication.favourite.data.FavouriteModel
+import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
-import com.example.storeapplication.productDetails.ProductClick
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener,ProductClick{
+class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener, ItemClick{
 
     private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
@@ -46,7 +49,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                R.id.searchIcon-> {
                    Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
-
 
                }
 
@@ -96,21 +98,17 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
         val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
-        binding.productsRV.adapter = productsRVAdapter    }
+        binding.productsRV.adapter = productsRVAdapter
+    }
+
 
     private fun openNavigationDrawer() {
-
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawableLayout.closeDrawer(GravityCompat.START)
         } else {
             binding.drawableLayout.openDrawer(GravityCompat.START)
         }
     }
-    override fun itemClick(productId: Int) {
-            Log.i(TAG, "itemClick: $productId")
-            val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(productId)
-            findNavController().navigate(action)
-        }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
@@ -123,6 +121,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             {
                 Toast.makeText(requireContext(),"Favourite item",Toast.LENGTH_LONG).show()
                 Log.i(TAG, "onNavigationItemSelected: " + "favourite item")
+                view?.findNavController()?.navigate(R.id.action_homeFragment_to_favouriteFragment)
             }
             R.id.nav_profile->
             {
@@ -170,5 +169,15 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
         Log.i(TAG, "onTabReselected: ")
+    }
+
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
+        favouriteDao.insertItem(FavouriteModel(id,name,price,image))
+    }
+
+    override fun productClickListener(id: Int) {
+        val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(id)
+        findNavController().navigate(action)
     }
 }
