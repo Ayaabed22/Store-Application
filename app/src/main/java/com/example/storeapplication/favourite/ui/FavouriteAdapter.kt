@@ -30,8 +30,10 @@ class FavouriteAdapter(private val favouritesList: List<FavouriteModel>, private
 
         holder.binding.favouriteIcon.setOnClickListener {
             holder.binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-            itemClick.itemClickListener(id,name,price,image)
+            itemClick.favouriteClickListener(id,name,price,image)
         }
+
+        holder.itemView.setOnClickListener {itemClick.productClickListener(id) }
     }
 
     override fun getItemCount(): Int {

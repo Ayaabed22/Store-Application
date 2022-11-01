@@ -93,9 +93,11 @@ class FragmentSearch : Fragment(),ItemClick {
         binding.sreachRecyclerView.adapter = adapterSearchView
     }
 
-    override fun itemClickListener(id: Int, name: String, price: Double, image: String) {
-        val action = FragmentSearchDirections.actionFragmentSearchToDeatilesFragment(id)
-        findNavController().navigate(action)
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
     }
+
+    override fun productClickListener(id: Int) {
+        val action = FragmentSearchDirections.actionFragmentSearchToDeatilesFragment(id)
+        findNavController().navigate(action)    }
 }
 

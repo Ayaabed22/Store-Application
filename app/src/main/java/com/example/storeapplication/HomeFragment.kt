@@ -171,14 +171,13 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         Log.i(TAG, "onTabReselected: ")
     }
 
-    override fun itemClickListener(id: Int, name: String, price: Double, image: String) {
-        //add item on favourite table
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
         favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
         favouriteDao.insertItem(FavouriteModel(id,name,price,image))
+    }
 
-        //to get product item details
+    override fun productClickListener(id: Int) {
         val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(id)
         findNavController().navigate(action)
     }
-
 }

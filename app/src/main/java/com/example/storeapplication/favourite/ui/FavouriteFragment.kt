@@ -29,15 +29,20 @@ class FavouriteFragment : Fragment() ,ItemClick{
         setDataOnRV()
     }
 
-    override fun itemClickListener(id: Int, name: String, price: Double, image: String) {
-        favouriteDao.deleteByItemId(id)
-        setDataOnRV()
-    }
 
     private fun setDataOnRV(){
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.favouriteRV.layoutManager = layoutManager
         val favouriteAdapter = FavouriteAdapter(favouriteDao.getFavourites(),this)
         binding.favouriteRV.adapter = favouriteAdapter
+    }
+
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
+        favouriteDao.deleteByItemId(id)
+        setDataOnRV()
+    }
+
+    override fun productClickListener(id: Int) {
+        TODO("Not yet implemented")
     }
 }

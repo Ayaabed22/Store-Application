@@ -8,7 +8,6 @@ data class Rating(
 	@SerializedName("count") val count : Int)
 
 data class GetProductResponseItem(
-	@SerializedName("id") val productId : Int,
 	@SerializedName("id") val id : Int,
 	@SerializedName("title") val title : String,
 	@SerializedName("price") val price : Double,

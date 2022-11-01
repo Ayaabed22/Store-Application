@@ -28,10 +28,11 @@ class ProductsRVAdapter(private val productsList: MutableList<GetProductResponse
 
         holder.binding.favouriteIcon.setOnClickListener {
             holder.binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
-            itemClick.itemClickListener(id,title,price,image)
+            itemClick.favouriteClickListener(id,title,price,image)
         }
 
-        holder.itemView.setOnClickListener {itemClick.itemClickListener(id,title,price,image) }
+        holder.itemView.setOnClickListener {itemClick.productClickListener(id)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -32,7 +32,7 @@ class AdaterSearchview(
         holder.ratingBar.rating = productsList[position].rating.rate.toFloat()
 
         Picasso.get().load(image).into(holder.productImage)
-        holder.itemView.setOnClickListener { itemClick.itemClickListener(id,name,price,image) }
+        holder.itemView.setOnClickListener { itemClick.productClickListener(id) }
     }
 
     override fun getItemCount(): Int {
