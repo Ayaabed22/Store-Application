@@ -3,7 +3,6 @@ package com.example.storeapplication.profile
 import android.content.ContentValues.TAG
 import android.os.Build
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +10,11 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentProfileBinding
-import com.example.storeapplication.signUp.*
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,16 +39,18 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val shared = requireActivity().getSharedPreferences("User Data", AppCompatActivity.MODE_PRIVATE)
-
         val userdata = shared.getString("userData", "")
-
         val gson = Gson()
         val json: String? = shared.getString("userData", "")
         val obj: GetAllUsersResponse? = gson.fromJson(json, GetAllUsersResponse::class.java)
 
         Log.i(TAG, "onViewCreated: $userdata")
         getProfile(obj?.id.toString())
-        binding.userData = obj;
+        binding.userData = obj
+
+        binding.cartFAB.setOnClickListener{
+            view.findNavController().navigate(R.id.action_profileFragment_to_cartFragment)
+        }
     }
 
     private fun getProfile(id: String) {
@@ -59,7 +61,7 @@ class ProfileFragment : Fragment() {
                 response: Response<GetAllUsersResponse>
             ) {
                 Log.i(TAG, "onResponse: "+ response.body())
-                bindData(response);
+                bindData(response)
             }
 
             override fun onFailure(call: Call<GetAllUsersResponse>, t: Throwable) {

@@ -16,7 +16,8 @@
             app:destination="@id/signupFragment" />
         <action
             android:id="@+id/action_signin_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -41,12 +42,19 @@
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.storeapplication.cart.ui.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.storeapplication.favourite.ui.FavouriteFragment"
+        android:label="FavouriteFragment" />
 
     <fragment
         android:id="@+id/deatilesFragment"
@@ -70,6 +78,10 @@
         android:id="@+id/profileFragment"
         android:name="com.example.storeapplication.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
 
 </navigation>

@@ -9,7 +9,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.storeapplication.databinding.FragmentSearchBinding
-import com.example.storeapplication.productDetails.ProductClick
+import com.example.storeapplication.favourite.ui.ItemClick
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FragmentSearch : Fragment(),ProductClick {
+class FragmentSearch : Fragment(),ItemClick {
     lateinit var binding: FragmentSearchBinding
      var productsList: ArrayList<GetProductResponseItem> = ArrayList()
     var tempList: ArrayList<GetProductResponseItem> = ArrayList()
@@ -93,9 +93,11 @@ class FragmentSearch : Fragment(),ProductClick {
         binding.sreachRecyclerView.adapter = adapterSearchView
     }
 
-    override fun itemClick(productId: Int) {
-        val action = FragmentSearchDirections.actionFragmentSearchToDeatilesFragment(productId)
-        findNavController().navigate(action)
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
     }
+
+    override fun productClickListener(id: Int) {
+        val action = FragmentSearchDirections.actionFragmentSearchToDeatilesFragment(id)
+        findNavController().navigate(action)    }
 }
 
