@@ -1,5 +1,6 @@
 package com.example.storeapplication.signUp.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,6 +21,17 @@ class SignupFragment : Fragment() {
     private lateinit var binding: FragmentSignupBinding
     companion object {
         private const val TAG = "SignupFragment"
+    }
+    private var fragmentContext: Context?=null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = requireContext()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        fragmentContext = null
     }
 
     override fun onCreateView(
@@ -49,20 +61,19 @@ class SignupFragment : Fragment() {
                     ) {
                         if (response.isSuccessful) {
                             Log.i(TAG, "onResponse: " + response.body().toString())
-                            Toast.makeText(requireContext(),"Register Success",Toast.LENGTH_LONG).show()
+                            makeToast("Register Success")
+                            view.findNavController().popBackStack()
                         }
                         else{
                             Log.i(TAG, "onResponse: " + response.errorBody().toString())
-                            Toast.makeText(requireContext(),response.errorBody().toString(),Toast.LENGTH_LONG).show()
+                            makeToast(response.errorBody().toString())
                         }
                     }
                     override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
                         Log.i(TAG, "onFailure: " + t.localizedMessage)
-                        Toast.makeText(requireContext(),t.localizedMessage,Toast.LENGTH_LONG).show()
+                        makeToast(t.localizedMessage)
                     }
                 })
-
-            view.findNavController().popBackStack()
         }
     }
 
@@ -80,5 +91,11 @@ class SignupFragment : Fragment() {
         return SignUpRequest(email, userName, password,
             Name(firstName, lastName),
             Address(city, street, number),phone)
+    }
+
+    private fun makeToast(text:String){
+        activity?.runOnUiThread {
+            Toast.makeText(fragmentContext,text,Toast.LENGTH_LONG).show()
+        }
     }
 }
