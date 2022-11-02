@@ -21,9 +21,10 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.storeapplication.signUp.SignupFragment"
+        android:name="com.example.storeapplication.signUp.ui.SignupFragment"
         android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_signup"/>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.storeapplication.HomeFragment"
@@ -54,7 +55,14 @@
     <fragment
         android:id="@+id/favouriteFragment"
         android:name="com.example.storeapplication.favourite.ui.FavouriteFragment"
-        android:label="FavouriteFragment" />
+        android:label="FavouriteFragment" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_deatilesFragment"
+            app:destination="@id/deatilesFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/deatilesFragment"

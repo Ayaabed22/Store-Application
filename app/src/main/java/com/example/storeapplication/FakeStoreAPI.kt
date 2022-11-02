@@ -5,7 +5,7 @@ import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.login.LoginRequest
 import com.example.storeapplication.login.LoginResponse
 import com.example.storeapplication.signUp.SignUpRequest
-import com.example.storeapplication.signUp.SignUpResponse
+import com.example.storeapplication.signUp.data.SignUpResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
