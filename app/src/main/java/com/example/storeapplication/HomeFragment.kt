@@ -34,9 +34,7 @@ class HomeFragment : Fragment() {
         binding.topAppBar.setOnClickListener{
             openNavigationDrawer()
         }
-
         getProductsFromApI()
-
     }
 
     private fun getProductsFromApI() {
@@ -54,7 +52,6 @@ class HomeFragment : Fragment() {
             override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
                 Log.i(TAG, "onFailure: " + t.localizedMessage)
             }
-
         })
     }
 
@@ -66,7 +63,6 @@ class HomeFragment : Fragment() {
 
 
     private fun openNavigationDrawer() {
-
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawableLayout.closeDrawer(GravityCompat.START)
         } else {
