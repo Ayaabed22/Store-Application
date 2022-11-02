@@ -28,9 +28,6 @@ import java.lang.reflect.Array.getInt
 class DetailsFragment : Fragment(){
     private lateinit var binding: FragmentDeatilesBinding
     private lateinit var args : DetailsFragmentArgs
-    private lateinit var productsList: MutableList<GetProductResponseItem>
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +48,7 @@ class DetailsFragment : Fragment(){
 
 }
     private fun getProductDetails(productId: Int) {
-        RetrofitClient.getClient().getProductDetails((productId+1).toString()).enqueue(object : Callback<GetProductResponseItem>{
+        RetrofitClient.getClient().getProductDetails((productId).toString()).enqueue(object : Callback<GetProductResponseItem>{
             override fun onResponse(
                 call: Call<GetProductResponseItem>,
                 response: Response<GetProductResponseItem>
@@ -76,9 +73,7 @@ class DetailsFragment : Fragment(){
         binding.productPrice.text = "EGP: ${response.body()?.price}"
         Picasso.get().load(response.body()?.image).into(binding.productImage)
         binding.ratingbar.rating= response.body()?.rating?.rate?.toFloat()!!
-
     }
-
     }
 
 

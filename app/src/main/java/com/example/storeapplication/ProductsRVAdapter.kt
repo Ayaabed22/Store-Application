@@ -24,9 +24,9 @@ class ProductsRVAdapter(private var productsList: MutableList<GetProductResponse
         holder.productTitle.text = productsList[position].title
         holder.productPrice.text = productsList[position].price.toString()
 
-     Picasso.get().load(productsList[position].image).into(holder.productImage)
+        Picasso.get().load(productsList[position].image).into(holder.productImage)
 
-        holder.itemView.setOnClickListener{Productclick.itemClick(holder.adapterPosition) }
+        holder.itemView.setOnClickListener{Productclick.itemClick(productsList[position].id) }
 
     }
 
