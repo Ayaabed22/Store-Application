@@ -3,5 +3,4 @@
     <item
         android:id="@+id/profile"
         android:title="Delete Account"  />
-
 </menu>

@@ -19,5 +19,18 @@
     <string name="number">Number</string>
     <string name="zip_code">Zip Code</string>
     <string name="product_image">Product Image</string>
-    ]
+    <string name="minusButton">minusButton</string>
+    <string name="men">Men</string>
+    <string name="women">Women</string>
+    <string name="jewelery">jewelery</string>
+    <string name="electronics">electronics</string>
+    <string name="Close">Close</string>
+    <string name="Open">Open</string>
+    <string name="checkout">Checkout</string>
+    <string name="all">All</string>
+    <string name="rating">\@String_rating</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="image">image</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="favourites">Favourites</string>
 </resources>
