@@ -1,52 +1,43 @@
 package com.example.storeapplication
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storeapplication.databinding.ProductsItemUiBinding
+import com.example.storeapplication.favourite.ui.ItemClick
 import com.squareup.picasso.Picasso
 
-class ProductsRVAdapter(private val productsList: MutableList<GetProductResponseItem>)
+class ProductsRVAdapter(private val productsList: MutableList<GetProductResponseItem>,private val itemClick: ItemClick)
     :RecyclerView.Adapter<ProductsRVAdapter.ProductsViewHolder>(){
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
-        return ProductsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.products_item_ui,parent,false))
+        return ProductsViewHolder(ProductsItemUiBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ProductsViewHolder, position: Int) {
+        val id:Int = productsList[holder.adapterPosition].id
+        val title:String = productsList[holder.adapterPosition].title
+        val price:Double = productsList[holder.adapterPosition].price
+        val image:String = productsList[holder.adapterPosition].image
 
-        holder.productTitle.text = productsList[position].title
-        holder.productPrice.text = productsList[position].price.toString()
+        holder.binding.productName.text = title
+        holder.binding.productPrice.text = "EGP: $price"
+        Picasso.get().load(image).into(holder.binding.productImage)
 
-        holder.productImage.setImageResource(Picasso.get().load(productsList[position].image).into(holder.productImage))
-        
+        holder.binding.favouriteIcon.setOnClickListener {
+            holder.binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
+            itemClick.favouriteClickListener(id,title,price,image)
+        }
 
+        holder.itemView.setOnClickListener {itemClick.productClickListener(id)
+        }
     }
 
     override fun getItemCount(): Int {
         return productsList.size
     }
 
-
-    class ProductsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var productImage: ImageView
-        var productTitle: TextView
-        var productPrice: TextView
-
-        init{
-            productImage = itemView.findViewById(R.id.product_image)
-            productTitle = itemView.findViewById(R.id.product_name)
-            productPrice = itemView.findViewById(R.id.product_price)
-        }
-    }
-}
-
-private fun ImageView.setImageResource(into: Unit) {
-
+    class ProductsViewHolder(val binding: ProductsItemUiBinding):RecyclerView.ViewHolder(binding.root)
 }
