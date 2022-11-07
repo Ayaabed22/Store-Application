@@ -3,34 +3,23 @@ package com.example.storeapplication.productDetails
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.provider.Settings.Global.getInt
-import android.provider.Settings.Secure.getInt
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RatingBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.storeapplication.GetProductResponseItem
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentDeatilesBinding
-import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Array.getInt
 
 
 class DetailsFragment : Fragment(){
     private lateinit var binding: FragmentDeatilesBinding
     private lateinit var args : DetailsFragmentArgs
-    private lateinit var productsList: MutableList<GetProductResponseItem>
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +40,7 @@ class DetailsFragment : Fragment(){
 
 }
     private fun getProductDetails(productId: Int) {
-        RetrofitClient.getClient().getProductDetails((productId+1).toString()).enqueue(object : Callback<GetProductResponseItem>{
+        RetrofitClient.getClient().getProductDetails((productId).toString()).enqueue(object : Callback<GetProductResponseItem>{
             override fun onResponse(
                 call: Call<GetProductResponseItem>,
                 response: Response<GetProductResponseItem>
@@ -76,9 +65,7 @@ class DetailsFragment : Fragment(){
         binding.productPrice.text = "EGP: ${response.body()?.price}"
         Picasso.get().load(response.body()?.image).into(binding.productImage)
         binding.ratingbar.rating= response.body()?.rating?.rate?.toFloat()!!
-
     }
-
     }
 
 
