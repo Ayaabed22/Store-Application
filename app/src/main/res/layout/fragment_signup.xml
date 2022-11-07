@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
 
     </data>
@@ -10,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".signUp.SignupFragment">
+        tools:context=".signUp.ui.SignupFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -19,12 +18,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout"
+                android:id="@+id/firstNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/first_name"
                 app:endIconMode="clear_text"
-                app:counterMaxLength="10"
                 app:counterEnabled="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -32,67 +30,87 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_first_name"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout2"
+                android:id="@+id/lastNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/last_name"
                 app:endIconMode="clear_text"
-                app:counterMaxLength="10"
                 app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout"
+                app:layout_constraintTop_toBottomOf="@id/firstNameLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/et_last_name" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout3"
+                android:id="@+id/userNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
+                android:hint="@string/user_name"
                 app:endIconMode="clear_text"
-                app:counterMaxLength="22"
                 app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout2"
+                app:layout_constraintTop_toBottomOf="@id/lastNameLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:id="@+id/et_user_name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/emailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                app:endIconMode="clear_text"
+                app:counterEnabled="true"
+                app:layout_constraintTop_toBottomOf="@id/userNameLayout"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
                     android:id="@+id/et_Email" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout4"
+                android:id="@+id/passwordLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:counterMaxLength="20"
+                app:counterMaxLength="8"
                 app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout3"
+                app:layout_constraintTop_toBottomOf="@id/emailLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="numberPassword"
                     android:id="@+id/et_password" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout5"
+                android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/phone"
@@ -100,7 +118,7 @@
                 app:counterMaxLength="11"
                 app:counterEnabled="true"
                 app:prefixText="+20"
-                app:layout_constraintTop_toBottomOf="@id/layout4"
+                app:layout_constraintTop_toBottomOf="@id/passwordLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -111,92 +129,56 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout6"
+                android:id="@+id/cityLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/city"
                 app:endIconMode="clear_text"
-                app:counterMaxLength="10"
                 app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout5"
+                app:layout_constraintTop_toBottomOf="@id/phoneLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:id="@+id/et_city" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout8"
+                android:id="@+id/streetLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/street"
                 app:endIconMode="clear_text"
-                app:counterMaxLength="10"
                 app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout7"
+                app:layout_constraintTop_toBottomOf="@id/cityLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="text"
                     android:id="@+id/et_street" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout9"
+                android:id="@+id/numLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/number"
                 app:endIconMode="clear_text"
-                app:counterMaxLength="10"
                 app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout8"
+                app:layout_constraintTop_toBottomOf="@id/streetLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:inputType="number"
                     android:id="@+id/et_number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/zip_code"
-                app:endIconMode="clear_text"
-                app:counterMaxLength="10"
-                app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout9"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/et_zipCode" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/layout7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/address"
-                app:endIconMode="clear_text"
-                app:counterMaxLength="20"
-                app:counterEnabled="true"
-                app:layout_constraintTop_toBottomOf="@id/layout6"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/et_address" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -204,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:weightSum="2"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/layout10"
+                app:layout_constraintTop_toBottomOf="@id/numLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 

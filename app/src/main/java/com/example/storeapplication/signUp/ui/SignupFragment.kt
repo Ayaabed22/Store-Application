@@ -1,0 +1,101 @@
+package com.example.storeapplication.signUp.ui
+
+import android.content.Context
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.findNavController
+import com.example.storeapplication.RetrofitClient
+import com.example.storeapplication.databinding.FragmentSignupBinding
+import com.example.storeapplication.signUp.*
+import com.example.storeapplication.signUp.data.SignUpResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
+class SignupFragment : Fragment() {
+    private lateinit var binding: FragmentSignupBinding
+    companion object {
+        private const val TAG = "SignupFragment"
+    }
+    private var fragmentContext: Context?=null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = requireContext()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        fragmentContext = null
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        binding = FragmentSignupBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.signInBtn.setOnClickListener {
+            view.findNavController().popBackStack()
+        }
+
+        binding.signUpBtn.setOnClickListener {
+            val signUpRequest = getData()
+
+            RetrofitClient.getClient().signUp(signUpRequest)
+                .enqueue(object : Callback<SignUpResponse> {
+                    override fun onResponse(
+                        call: Call<SignUpResponse>,
+                        response: Response<SignUpResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.i(TAG, "onResponse: " + response.body().toString())
+                            makeToast("Register Success")
+                            view.findNavController().popBackStack()
+                        }
+                        else{
+                            Log.i(TAG, "onResponse: " + response.errorBody().toString())
+                            makeToast(response.errorBody().toString())
+                        }
+                    }
+                    override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
+                        Log.i(TAG, "onFailure: " + t.localizedMessage)
+                        makeToast(t.localizedMessage)
+                    }
+                })
+        }
+    }
+
+    private fun getData() : SignUpRequest{
+        val firstName = binding.etFirstName.text.toString()
+        val lastName = binding.etLastName.text.toString()
+        val userName = binding.etUserName.text.toString()
+        val email = binding.etEmail.text.toString()
+        val password = binding.etPassword.text.toString()
+        val phone = binding.etPhone.text.toString()
+        val city = binding.etCity.text.toString()
+        val street = binding.etStreet.text.toString()
+        val number = binding.etNumber.text.toString()
+
+        return SignUpRequest(email, userName, password,
+            Name(firstName, lastName),
+            Address(city, street, number),phone)
+    }
+
+    private fun makeToast(text:String){
+        activity?.runOnUiThread {
+            Toast.makeText(fragmentContext,text,Toast.LENGTH_LONG).show()
+        }
+    }
+}

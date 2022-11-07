@@ -33,4 +33,6 @@
     <string name="image">image</string>
     <string name="description">Description</string>
     <string name="product_name">Product Name</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="favourites">Favourites</string>
 </resources>

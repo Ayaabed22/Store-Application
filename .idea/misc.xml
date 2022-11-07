@@ -7,13 +7,19 @@
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/drawable/ic_baseline_shopping_cart_24.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/activity_main.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/activity_profile.xml" value="0.209375" />
+        <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/cart_item.xml" value="0.22" />
+        <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_cart.xml" value="0.209375" />
+        <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_favourite.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/cart_item.xml" value="0.20833333333333334" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_cart.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_deatiles.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_favourite.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
+        <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_profile.xml" value="0.13160333642261354" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_signin.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/layout/fragment_signup.xml" value="0.13333333333333333" />
@@ -24,6 +30,7 @@
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/menu/menu.xml" value="0.209375" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/menu/nav_men.xml" value="0.20833333333333334" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/menu/nav_menu.xml" value="0.209375" />
+        <entry key="..\:/Store-Application/app/src/main/res/layout/activity_main.xml" value="0.1703125" />
         <entry key="..\:/AndroidStudioProjects/Store-Application/app/src/main/res/menu/toolbarmenu.xml" value="0.209375" />
         <entry key="..\:/Store-Application/app/src/main/res/layout/activity_main.xml" value="0.1703125" />
         <entry key="..\:/Users/DELL/AndroidStudioProjects/Store-Application/app/src/main/res/layout/activity_main.xml" value="0.1824074074074074" />

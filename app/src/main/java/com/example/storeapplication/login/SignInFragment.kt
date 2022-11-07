@@ -3,15 +3,16 @@ package com.example.storeapplication.login
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentSigninBinding
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,7 +20,17 @@ import retrofit2.Response
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
+    private var fragmentContext: Context?=null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        fragmentContext = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +44,6 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.signUpBtn.setOnClickListener {
             view.findNavController().navigate(R.id.action_signin_to_signupFragment)
         }
@@ -41,10 +51,11 @@ class SignInFragment : Fragment() {
         binding.signInBtn.setOnClickListener {
             val userName = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
-            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
 
-//            checkEnteredData(userName,password)
+            checkEnteredData(userName,password)
+//            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
         }
+
     }
 
     private fun checkEnteredData(userName:String , password:String) {
@@ -55,7 +66,6 @@ class SignInFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     Log.i(TAG, "onResponse: " + response.body().toString())
-                    Log.i(TAG, "onResponse: "+ response.errorBody())
                     getUserID(userName)
                     view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
                 }
@@ -78,10 +88,9 @@ class SignInFragment : Fragment() {
             ) {
                 if (response.isSuccessful){
                     Log.i(TAG, "onResponse: " + response.body().toString())
-                    var userData = response.body()?.find { it.username == userName }
+                    val userData = response.body()?.find { it.username == userName }
                     Log.i(TAG, "User Name: " + response.body()?.find { it.username == userName })
                     safeUserData(userData)
-
                 }
             }
 
@@ -93,10 +102,12 @@ class SignInFragment : Fragment() {
     }
 
     private fun safeUserData(userData: GetAllUsersResponse?) {
-        val sharedPreference =  requireContext().getSharedPreferences("User Data", Context.MODE_PRIVATE)
-        val editor = sharedPreference.edit()
-        editor.putString("userData",userData.toString())
-        editor.apply()
+        val sharedPreference =  fragmentContext?.getSharedPreferences("User Data", Context.MODE_PRIVATE)
+        val editor = sharedPreference?.edit()
+        val gson = Gson()
+        val json = gson.toJson(userData)
+        editor?.putString("userData",json)
+        editor?.apply()
     }
 
     companion object {

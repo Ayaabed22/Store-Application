@@ -37,7 +37,6 @@ class CartFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     Log.i(TAG, "onResponse: "+ response.body())
-
                     response.body()?.let {responseBody->
                         val cartItems = buildList {
                             responseBody.forEach {
@@ -66,8 +65,7 @@ class CartFragment : Fragment() {
         //outside the for loop return the new list of products
         val emptyList:ArrayList<GetProductResponseItem> = ArrayList()
 
-        RetrofitClient.getClient().getProducts()
-            .enqueue(object : Callback<MutableList<GetProductResponseItem>> {
+        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
                 override fun onResponse(
                     call: Call<MutableList<GetProductResponseItem>>,
                     response: Response<MutableList<GetProductResponseItem>>
@@ -86,15 +84,13 @@ class CartFragment : Fragment() {
                         }
                     }
                 }
-
                 override fun onFailure(
-                    call: Call<MutableList<GetProductResponseItem>>,
-                    t: Throwable
-                ) {
+                    call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
                     Log.i(TAG, "onFailure: " + t.localizedMessage)
                 }
             })
     }
+
     private fun setDataOnRV(cartList: MutableList<GetProductResponseItem>) {
         val cartAdapter = CartAdapter(cartList)
         binding.CartRV.adapter = cartAdapter

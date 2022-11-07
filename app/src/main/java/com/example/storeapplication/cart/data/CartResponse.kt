@@ -1,6 +1,4 @@
 package com.example.storeapplication.cart.data
-
-
 data class CartResponse(
     val date: String? = null,
     val id: Int? = null,
