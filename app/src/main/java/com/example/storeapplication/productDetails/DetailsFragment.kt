@@ -3,26 +3,18 @@ package com.example.storeapplication.productDetails
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.provider.Settings.Global.getInt
-import android.provider.Settings.Secure.getInt
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RatingBar
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.storeapplication.GetProductResponseItem
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentDeatilesBinding
-import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Array.getInt
 
 
 class DetailsFragment : Fragment(){
