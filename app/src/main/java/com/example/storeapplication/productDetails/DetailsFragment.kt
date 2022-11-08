@@ -9,8 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentDeatilesBinding
+import com.example.storeapplication.favourite.data.FavouriteDatabase
+import com.example.storeapplication.favourite.data.FavouriteModel
+import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,8 +69,20 @@ class DetailsFragment : Fragment(){
         binding.productPrice.text = "EGP: ${response.body()?.price}"
         Picasso.get().load(response.body()?.image).into(binding.productImage)
         binding.ratingbar.rating= response.body()?.rating?.rate?.toFloat()!!
+
+        binding.favouriteIcon.setOnClickListener {
+            if (response.body() != null)
+                addToFavourite(response.body()!!)
+        }
     }
+
+    private fun addToFavourite(body: GetProductResponseItem) {
+        binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
+        favouriteDao.insertItem(FavouriteModel(body.id,body.title,body.price,body.image))
     }
+
+}
 
 
 
