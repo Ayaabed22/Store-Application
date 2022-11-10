@@ -2,7 +2,6 @@ package com.example.storeapplication
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -30,6 +29,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
+    private var itemList = mutableListOf<GetProductResponseItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,30 +47,31 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
            when (it.itemId) {
 
                R.id.searchIcon-> {
-                   Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
                }
                R.id.sort -> {
-                   Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
-               }
-               else->{
-                   Log.i(TAG, "onOptionsItemSelected: ")
+                   sortItems()
                }
            }
            return@setOnMenuItemClickListener true
        }
 
 
-        binding.topAppBar.setOnClickListener {
-            openNavigationDrawer()
-        }
+        binding.topAppBar.setOnClickListener { openNavigationDrawer() }
+
         getProductsFromApI()
 
         binding.navView.setNavigationItemSelectedListener(this)
 
+
         binding.categoryTabs.addOnTabSelectedListener(this)
 
         }
+
+    private fun sortItems() {
+        itemList.sortBy {it.price}
+        showProductsOnRecyclerView(itemList)
+    }
 
     private fun getProductsFromApI() {
         RetrofitClient.getClient().getProducts().enqueue(object: Callback<MutableList<GetProductResponseItem>> {
@@ -79,7 +80,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                 response: Response<MutableList<GetProductResponseItem>>
             ) {
                 if (response.isSuccessful) {
-                    showProductsOnRecyclerView(response)
+                    itemList.addAll(response.body()!!)
+                    showProductsOnRecyclerView(itemList)
                     Log.i(TAG, "onResponse: "+ response.body())
                 }
             }
@@ -89,12 +91,13 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         })
     }
 
-    private fun showProductsOnRecyclerView(response: Response<MutableList<GetProductResponseItem>>) {
+    private fun showProductsOnRecyclerView(itemList: MutableList<GetProductResponseItem>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
-        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
+        val productsRVAdapter = ProductsRVAdapter(itemList,this)
         binding.productsRV.adapter = productsRVAdapter
     }
+
 
     private fun openNavigationDrawer() {
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
@@ -146,8 +149,10 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                 response: Response<MutableList<GetProductResponseItem>>
             ) {
                 if (response.isSuccessful){
+                    itemList.clear()
+                    itemList.addAll(response.body()!!)
                     Log.i(TAG, "onResponse: "+response.body())
-                    showProductsOnRecyclerView(response)
+                    showProductsOnRecyclerView(itemList)
                 }
             }
             override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
