@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentSearch"
-        android:name="com.example.storeapplication.FragmentSearch"
+        android:name="com.example.storeapplication.search.FragmentSearch"
         android:label="FragmentSearch" >
         <action
             android:id="@+id/action_fragmentSearch_to_deatilesFragment"
