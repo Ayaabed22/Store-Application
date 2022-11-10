@@ -13,6 +13,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:padding="16dp"
+        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,6 +22,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="centerInside"
+            android:contentDescription="@string/image"
             android:src="@drawable/download" />
 
         <LinearLayout
@@ -44,7 +46,7 @@
                 android:id="@+id/product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EGP ${109.95}"
+                tools:text="EGP ${109.95}"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="19sp" />
 
@@ -54,16 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/Addtocart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add To Cart"
-                android:textAllCaps="false"
-                android:translationX="70dp"/>
-
-
         </LinearLayout>
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -52,8 +52,8 @@ class SignInFragment : Fragment() {
             val userName = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
 
-            checkEnteredData(userName,password)
-//            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
+//            checkEnteredData(userName,password)
+            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
         }
 
     }
