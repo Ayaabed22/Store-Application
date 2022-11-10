@@ -10,7 +10,7 @@
         android:id="@+id/signin"
         android:name="com.example.storeapplication.login.SignInFragment"
         android:label="fragment_signin"
-        tools:layout="@layout/fragment_signin" >
+        tools:layout="@layout/fragment_signin">
         <action
             android:id="@+id/action_signin_to_signupFragment"
             app:destination="@id/signupFragment" />
