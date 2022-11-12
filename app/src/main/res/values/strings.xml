@@ -35,4 +35,11 @@
     <string name="product_name">Product Name</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="favourites">Favourites</string>
+    <string name="profile">Profile</string>
+    <string name="cart">Cart</string>
+    <string name="logout">Logout</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="dialogMassage">Are You Sure to Delete item From Favourite</string>
+
 </resources>

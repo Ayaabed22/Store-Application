@@ -12,6 +12,9 @@ import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentSigninBinding
+import com.example.storeapplication.utils.MySharedPreferences
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +24,6 @@ class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
     private var fragmentContext: Context?=null
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentContext = context
@@ -43,7 +45,6 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.signUpBtn.setOnClickListener {
             view.findNavController().navigate(R.id.action_signin_to_signupFragment)
         }
@@ -52,11 +53,12 @@ class SignInFragment : Fragment() {
             val userName = binding.etUserName.text.toString()
             val password = binding.etPassword.text.toString()
 
-//            checkEnteredData(userName,password)
-            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
+            checkEnteredData(userName,password)
+//            view.findNavController().navigate(R.id.action_signin_to_homeFragment)
         }
 
     }
+
 
     private fun checkEnteredData(userName:String , password:String) {
         RetrofitClient.getClient().login(LoginRequest(userName,password)).enqueue(object: Callback<LoginResponse> {
@@ -102,12 +104,11 @@ class SignInFragment : Fragment() {
     }
 
     private fun safeUserData(userData: GetAllUsersResponse?) {
-        val sharedPreference =  fragmentContext?.getSharedPreferences("User Data", Context.MODE_PRIVATE)
-        val editor = sharedPreference?.edit()
         val gson = Gson()
         val json = gson.toJson(userData)
-        editor?.putString("userData",json)
-        editor?.apply()
+        MySharedPreferences.getPrefs(fragmentContext)
+        MySharedPreferences.saveString(fragmentContext,KEY_MY_SHARED_String,json)
+        MySharedPreferences.saveBooleanLogin(fragmentContext, KEY_MY_SHARED_BOOLEAN_LOGIN,true)
     }
 
     companion object {
