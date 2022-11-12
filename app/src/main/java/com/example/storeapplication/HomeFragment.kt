@@ -21,6 +21,7 @@ import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.example.storeapplication.utils.MySharedPreferences
 import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
 import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
@@ -140,7 +141,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.nav_logout->
             {
-                logout()
+                showAlertDialog()
             }
         }
         binding.drawableLayout.close()
@@ -149,8 +150,18 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     private fun logout() {
         MySharedPreferences.saveBooleanLogin(requireContext(),KEY_MY_SHARED_BOOLEAN_LOGIN,false)
-        binding.drawableLayout.close()
         findNavController().popBackStack()
+    }
+
+    private fun showAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(resources.getString(R.string.dialogMassageLogout))
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, _ ->
+                dialog.cancel()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
+                logout()
+            }.show()
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {

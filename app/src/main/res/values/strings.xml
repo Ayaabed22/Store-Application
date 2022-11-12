@@ -41,5 +41,6 @@
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="dialogMassage">Are You Sure to Delete item From Favourite</string>
+    <string name="dialogMassageLogout">Are You Sure to Logout</string>
 
 </resources>
