@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         tools:context=".profile.ProfileFragment">
 
-
         <LinearLayout
             android:id="@+id/relative"
             android:layout_width="match_parent"
@@ -26,15 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.ActionMenuView
-                android:id="@+id/menu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/dots" />
-
             <TextView
                 android:id="@+id/fullName_field"
                 android:layout_width="wrap_content"
@@ -43,8 +33,8 @@
                 android:layout_marginTop="90dp"
                 android:includeFontPadding="false"
                 android:text="@{userData.username}"
-                android:textColor="@color/black"
-                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -54,7 +44,8 @@
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
                 tools:text="@{userData.email}"
-                android:textSize="14sp" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,7 +55,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:text="@string/edit_profile"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_baseline_edit_24" />
         </LinearLayout>
@@ -83,6 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_baseline_person_24"
                 android:text="@{userData.username}"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -94,6 +87,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:text="@{userData.email}"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_baseline_email_24"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -104,6 +99,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:text="@{userData.address.city}"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_baseline_location_city_24"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -114,6 +111,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:text="@{userData.address.street}"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_baseline_home_work_24"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -125,7 +124,9 @@
                 android:layout_marginTop="20dp"
                 android:text="@{userData.phone}"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_baseline_phone_android_24" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/cartFAB"
@@ -135,7 +136,8 @@
                 android:layout_marginRight="30dp"
                 android:backgroundTint="@color/orange"
                 android:contentDescription="@string/add_to_cart"
-                app:srcCompat="@drawable/cart" />
+                app:srcCompat="@drawable/ic_baseline_shopping_cart_24"
+                app:tint="@color/white"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,19 +6,24 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentHomeBinding
 import com.example.storeapplication.favourite.ui.ItemClick
 import com.example.storeapplication.favourite.data.FavouriteDatabase
 import com.example.storeapplication.favourite.data.FavouriteModel
 import com.example.storeapplication.utils.Const.Companion.favouriteDao
+import com.example.storeapplication.utils.MySharedPreferences
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +31,6 @@ import retrofit2.Response
 
 class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener, ItemClick{
 
-    private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
     private var itemList = mutableListOf<GetProductResponseItem>()
@@ -43,9 +47,10 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       binding.topAppBar.setOnMenuItemClickListener {
-           when (it.itemId) {
+        MySharedPreferences.getPrefs(requireContext())
 
+        binding.topAppBar.setOnMenuItemClickListener {
+           when (it.itemId) {
                R.id.searchIcon-> {
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
                }
@@ -56,17 +61,29 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
            return@setOnMenuItemClickListener true
        }
 
-
         binding.topAppBar.setOnClickListener { openNavigationDrawer() }
 
         getProductsFromApI()
 
         binding.navView.setNavigationItemSelectedListener(this)
 
-
         binding.categoryTabs.addOnTabSelectedListener(this)
 
+        getUserDataFromShared()
+
         }
+
+    private fun getUserDataFromShared(){
+        val gson = Gson()
+        val json = MySharedPreferences.getString(requireContext(),KEY_MY_SHARED_String)
+        val obj = gson.fromJson(json, GetAllUsersResponse::class.java)
+
+        val navigationView = binding.navView
+        val headerView = navigationView.getHeaderView(0)
+
+        headerView.findViewById<TextView>(R.id.nav_name).text = obj.username
+        headerView.findViewById<TextView>(R.id.nav_email).text = obj.email
+    }
 
     private fun sortItems() {
         itemList.sortBy {it.price}
@@ -98,7 +115,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         binding.productsRV.adapter = productsRVAdapter
     }
 
-
     private fun openNavigationDrawer() {
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawableLayout.closeDrawer(GravityCompat.START)
@@ -116,17 +132,25 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.nav_favorite->
             {
-                Toast.makeText(requireContext(),"Favourite item",Toast.LENGTH_LONG).show()
-                Log.i(TAG, "onNavigationItemSelected: " + "favourite item")
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_favouriteFragment)
             }
             R.id.nav_profile->
             {
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_profileFragment)
             }
+            R.id.nav_logout->
+            {
+                logout()
+            }
         }
         binding.drawableLayout.close()
         return true
+    }
+
+    private fun logout() {
+        MySharedPreferences.saveBooleanLogin(requireContext(),KEY_MY_SHARED_BOOLEAN_LOGIN,false)
+        binding.drawableLayout.close()
+        findNavController().popBackStack()
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -177,5 +201,9 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun productClickListener(id: Int) {
         val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(id)
         findNavController().navigate(action)
+    }
+
+    companion object {
+        private const val TAG = "HomeFragment"
     }
 }
