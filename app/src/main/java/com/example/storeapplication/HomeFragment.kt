@@ -31,10 +31,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
