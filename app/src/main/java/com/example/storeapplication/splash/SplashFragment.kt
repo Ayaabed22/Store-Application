@@ -10,19 +10,20 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.storeapplication.R
 import com.example.storeapplication.databinding.FragmentSplashBinding
+import com.example.storeapplication.utils.MySharedPreferences
 
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View{
         // Inflate the layout for this fragment
 
         binding = FragmentSplashBinding.inflate(inflater,container,false)
         Handler(Looper.myLooper()!!).postDelayed({
             MySharedPreferences.getPrefs(requireContext())
-            val str = MySharedPreferences.getString(requireContext(),MySharedPreferences.KEY_MY_SHARED_String)
+
             val isLogin = MySharedPreferences.getBooleanLogin(requireContext(),MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN)
 
             if (isLogin == true){

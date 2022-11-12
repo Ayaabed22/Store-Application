@@ -71,7 +71,6 @@ class CartFragment : Fragment() {
         return obj?.id
     }
 
-
     private fun getProductDetails(cartItems: List<ProductsItem?>?){
         //crate an empty list of products
         //get All Products from api
