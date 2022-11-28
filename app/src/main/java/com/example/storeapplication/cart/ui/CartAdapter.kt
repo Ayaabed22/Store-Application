@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.home.data.GetProductResponseItem
 import com.example.storeapplication.databinding.CartItemBinding
 import com.squareup.picasso.Picasso
 

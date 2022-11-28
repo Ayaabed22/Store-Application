@@ -54,19 +54,19 @@ class ProfileFragment : Fragment() {
 
     private fun getProfile(id: String) {
 
-        RetrofitClient.getClient().getUserData(id).enqueue(object: Callback<GetAllUsersResponse> {
-            override fun onResponse(
-                call: Call<GetAllUsersResponse>,
-                response: Response<GetAllUsersResponse>
-            ) {
-                Log.i(TAG, "onResponse: "+ response.body())
-                bindData(response)
-            }
-
-            override fun onFailure(call: Call<GetAllUsersResponse>, t: Throwable) {
-                Log.i(TAG, "onFailure: "+t.localizedMessage)
-            }
-        })
+//        RetrofitClient.getClient().getUserData(id).enqueue(object: Callback<GetAllUsersResponse> {
+//            override fun onResponse(
+//                call: Call<GetAllUsersResponse>,
+//                response: Response<GetAllUsersResponse>
+//            ) {
+//                Log.i(TAG, "onResponse: "+ response.body())
+//                bindData(response)
+//            }
+//
+//            override fun onFailure(call: Call<GetAllUsersResponse>, t: Throwable) {
+//                Log.i(TAG, "onFailure: "+t.localizedMessage)
+//            }
+//        })
     }
 
     private fun bindData(response: Response<GetAllUsersResponse>){

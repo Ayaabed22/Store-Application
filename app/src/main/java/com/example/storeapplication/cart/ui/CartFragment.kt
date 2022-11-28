@@ -1,6 +1,5 @@
 package com.example.storeapplication.cart.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.CartAPI
+import com.example.storeapplication.ProductsAPI
+import com.example.storeapplication.home.data.GetProductResponseItem
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.CartResponse
 import com.example.storeapplication.cart.data.GetAllUsersResponse
@@ -37,7 +38,8 @@ class CartFragment : Fragment() {
         val id = getIdFromShared()
 
         if (id != null) {
-            RetrofitClient.getClient().getUserCarts(id).enqueue(object: Callback<MutableList<CartResponse>>{
+            var client = RetrofitClient.getInstance()!!.create(CartAPI::class.java)
+            client.getUserCarts(id).enqueue(object: Callback<MutableList<CartResponse>>{
                 override fun onResponse(
                     call: Call<MutableList<CartResponse>>,
                     response: Response<MutableList<CartResponse>>
@@ -80,30 +82,30 @@ class CartFragment : Fragment() {
         //outside the for loop return the new list of products
         val emptyList:ArrayList<GetProductResponseItem> = ArrayList()
 
-        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
-                override fun onResponse(
-                    call: Call<MutableList<GetProductResponseItem>>,
-                    response: Response<MutableList<GetProductResponseItem>>
-                ) {
-                    if (response.isSuccessful) {
-                        Log.i(TAG, "onResponse: " + response.body())
-                        val allProductsList = response.body()
-                        cartItems?.let {cartItems->
-                            for (cartItem in cartItems) {
-                               val newCartItem =  allProductsList?.find { it.id == cartItem?.productId }?.copy(quantity = cartItem?.quantity)
-                               newCartItem?.let {
-                                emptyList.add(it)
-                            }
-                            }
-                            setDataOnRV(emptyList)
-                        }
-                    }
-                }
-                override fun onFailure(
-                    call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                    Log.i(TAG, "onFailure: " + t.localizedMessage)
-                }
-            })
+//        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
+//                override fun onResponse(
+//                    call: Call<MutableList<GetProductResponseItem>>,
+//                    response: Response<MutableList<GetProductResponseItem>>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        Log.i(TAG, "onResponse: " + response.body())
+//                        val allProductsList = response.body()
+//                        cartItems?.let {cartItems->
+//                            for (cartItem in cartItems) {
+//                               val newCartItem =  allProductsList?.find { it.id == cartItem?.productId }?.copy(quantity = cartItem?.quantity)
+//                               newCartItem?.let {
+//                                emptyList.add(it)
+//                            }
+//                            }
+//                            setDataOnRV(emptyList)
+//                        }
+//                    }
+//                }
+//                override fun onFailure(
+//                    call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
+//                    Log.i(TAG, "onFailure: " + t.localizedMessage)
+//                }
+//            })
     }
 
     private fun setDataOnRV(cartList: MutableList<GetProductResponseItem>) {

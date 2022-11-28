@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.home.data.GetProductResponseItem
 import com.example.storeapplication.R
 import com.example.storeapplication.favourite.ui.ItemClick
 import com.squareup.picasso.Picasso

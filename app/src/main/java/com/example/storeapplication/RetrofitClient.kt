@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
         private var retrofit: Retrofit? = null
 
-        fun  getClient() : FakeStoreAPI {
+        fun  getInstance() : Retrofit? {
 
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
@@ -16,6 +16,6 @@ import retrofit2.converter.gson.GsonConverterFactory
                     .build()
             }
 
-            return retrofit!!.create(FakeStoreAPI::class.java)
+            return retrofit
         }
 }

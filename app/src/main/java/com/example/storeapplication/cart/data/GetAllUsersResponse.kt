@@ -1,6 +1,6 @@
 package com.example.storeapplication.cart.data
 
-import com.example.storeapplication.signUp.Address
+import com.example.storeapplication.signUp.data.Address
 
 
 data class GetAllUsersResponse(

@@ -1,14 +1,16 @@
-package com.example.storeapplication
+package com.example.storeapplication.home.ui
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.storeapplication.home.data.GetProductResponseItem
+import com.example.storeapplication.R
 import com.example.storeapplication.databinding.ProductsItemUiBinding
 import com.example.storeapplication.favourite.ui.ItemClick
 import com.squareup.picasso.Picasso
 
-class ProductsRVAdapter(private val productsList: MutableList<GetProductResponseItem>,private val itemClick: ItemClick)
+class ProductsRVAdapter(private val productsList: MutableList<GetProductResponseItem>, private val itemClick: ItemClick)
     :RecyclerView.Adapter<ProductsRVAdapter.ProductsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
