@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/signin"
-        android:name="com.example.storeapplication.login.SignInFragment"
+        android:name="com.example.storeapplication.signIn.ui.SignInFragment"
         android:label="fragment_signin"
         tools:layout="@layout/fragment_signin">
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.storeapplication.HomeFragment"
+        android:name="com.example.storeapplication.home.ui.HomeFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_homeFragment_to_cartFragment"
