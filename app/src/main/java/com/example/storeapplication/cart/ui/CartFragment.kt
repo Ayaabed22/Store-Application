@@ -1,5 +1,6 @@
 package com.example.storeapplication.cart.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,8 +11,11 @@ import android.widget.Toast
 import com.example.storeapplication.GetProductResponseItem
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.CartResponse
+import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.cart.data.ProductsItem
 import com.example.storeapplication.databinding.FragmentCartBinding
+import com.example.storeapplication.utils.MySharedPreferences
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,31 +34,42 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        RetrofitClient.getClient().getUserCarts(3).enqueue(object: Callback<MutableList<CartResponse>>{
-            override fun onResponse(
-                call: Call<MutableList<CartResponse>>,
-                response: Response<MutableList<CartResponse>>
-            ) {
-                if (response.isSuccessful) {
-                    Log.i(TAG, "onResponse: "+ response.body())
-                    response.body()?.let {responseBody->
-                        val cartItems = buildList {
-                            responseBody.forEach {
-                                it.products?.let { it1 -> addAll(it1.toMutableList()) }
+        val id = getIdFromShared()
+
+        if (id != null) {
+            RetrofitClient.getClient().getUserCarts(id).enqueue(object: Callback<MutableList<CartResponse>>{
+                override fun onResponse(
+                    call: Call<MutableList<CartResponse>>,
+                    response: Response<MutableList<CartResponse>>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.i(TAG, "onResponse: "+ response.body())
+                        response.body()?.let {responseBody->
+                            val cartItems = buildList {
+                                responseBody.forEach {
+                                    it.products?.let { it1 -> addAll(it1.toMutableList()) }
+                                }
                             }
+                            getProductDetails(cartItems)
+                            true
                         }
-                        getProductDetails(cartItems)
-                        true
                     }
                 }
-            }
-            override fun onFailure(call: Call<MutableList<CartResponse>>, t: Throwable) {
-                Log.i(TAG, "onFailure: " + t.localizedMessage)
-                Toast.makeText(requireContext(),"Cart Failure",Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onFailure(call: Call<MutableList<CartResponse>>, t: Throwable) {
+                    Log.i(TAG, "onFailure: " + t.localizedMessage)
+                    Toast.makeText(requireContext(),"Cart Failure",Toast.LENGTH_LONG).show()
+                }
+            })
+        }
     }
 
+    private fun getIdFromShared(): Int? {
+        MySharedPreferences.getPrefs(requireContext())
+        val json= MySharedPreferences.getString(requireContext(), MySharedPreferences.KEY_MY_SHARED_String)
+        val gson = Gson()
+        val obj: GetAllUsersResponse? = gson.fromJson(json, GetAllUsersResponse::class.java)
+        return obj?.id
+    }
 
     private fun getProductDetails(cartItems: List<ProductsItem?>?){
         //crate an empty list of products

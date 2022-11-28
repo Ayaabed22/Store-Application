@@ -12,6 +12,9 @@ import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentSigninBinding
+import com.example.storeapplication.utils.MySharedPreferences
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,7 +23,16 @@ import retrofit2.Response
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
+    private var fragmentContext: Context?=null
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
 
+    override fun onDetach() {
+        super.onDetach()
+        fragmentContext = null
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +45,6 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.signUpBtn.setOnClickListener {
             view.findNavController().navigate(R.id.action_signin_to_signupFragment)
         }
@@ -48,6 +59,7 @@ class SignInFragment : Fragment() {
 
     }
 
+
     private fun checkEnteredData(userName:String , password:String) {
         RetrofitClient.getClient().login(LoginRequest(userName,password)).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(
@@ -56,7 +68,6 @@ class SignInFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     Log.i(TAG, "onResponse: " + response.body().toString())
-                    Log.i(TAG, "onResponse: "+ response.errorBody())
                     getUserID(userName)
                     view?.findNavController()?.navigate(R.id.action_signin_to_homeFragment)
                 }
@@ -93,12 +104,11 @@ class SignInFragment : Fragment() {
     }
 
     private fun safeUserData(userData: GetAllUsersResponse?) {
-        val sharedPreference =  requireContext().getSharedPreferences("User Data", Context.MODE_PRIVATE)
-        val editor = sharedPreference.edit()
         val gson = Gson()
         val json = gson.toJson(userData)
-        editor.putString("userData",json)
-        editor.apply()
+        MySharedPreferences.getPrefs(fragmentContext)
+        MySharedPreferences.saveString(fragmentContext,KEY_MY_SHARED_String,json)
+        MySharedPreferences.saveBooleanLogin(fragmentContext, KEY_MY_SHARED_BOOLEAN_LOGIN,true)
     }
 
     companion object {

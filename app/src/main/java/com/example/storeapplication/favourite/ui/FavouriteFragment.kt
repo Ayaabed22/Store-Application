@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.storeapplication.HomeFragmentDirections
 import com.example.storeapplication.R
 import com.example.storeapplication.databinding.FragmentFavouriteBinding
 import com.example.storeapplication.favourite.data.FavouriteDatabase
 import com.example.storeapplication.utils.Const.Companion.favouriteDao
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class FavouriteFragment : Fragment() ,ItemClick{
     private lateinit var binding:FragmentFavouriteBinding
@@ -42,12 +41,23 @@ class FavouriteFragment : Fragment() ,ItemClick{
     }
 
     override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
-        favouriteDao.deleteByItemId(id)
-        setDataOnRV()
+        showAlertDialog(id)
     }
 
     override fun productClickListener(id: Int) {
         val action= FavouriteFragmentDirections.actionFavouriteFragmentToDeatilesFragment(id)
         findNavController().navigate(action)
+    }
+
+    private fun showAlertDialog(id:Int) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(resources.getString(R.string.dialogMassage))
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, _ ->
+                dialog.cancel()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
+                favouriteDao.deleteByItemId(id)
+                setDataOnRV()
+            }.show()
     }
 }

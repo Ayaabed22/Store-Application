@@ -2,24 +2,29 @@ package com.example.storeapplication
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentHomeBinding
 import com.example.storeapplication.favourite.ui.ItemClick
 import com.example.storeapplication.favourite.data.FavouriteDatabase
 import com.example.storeapplication.favourite.data.FavouriteModel
 import com.example.storeapplication.utils.Const.Companion.favouriteDao
+import com.example.storeapplication.utils.MySharedPreferences
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,9 +32,9 @@ import retrofit2.Response
 
 class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener, ItemClick{
 
-    private val TAG = "HomeFragment"
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
+    private var itemList = mutableListOf<GetProductResponseItem>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -40,34 +45,48 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       binding.topAppBar.setOnMenuItemClickListener {
-           when (it.itemId) {
+        MySharedPreferences.getPrefs(requireContext())
 
+        binding.topAppBar.setOnMenuItemClickListener {
+           when (it.itemId) {
                R.id.searchIcon-> {
-                   Log.i(TAG, "onOptionsItemSelected: " + "search icon clicked")
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
                }
                R.id.sort -> {
-                   Log.i(TAG, "onOptionsItemSelected: " + "sort icon clicked")
-               }
-               else->{
-                   Log.i(TAG, "onOptionsItemSelected: ")
+                   sortItems()
                }
            }
            return@setOnMenuItemClickListener true
        }
 
+        binding.topAppBar.setOnClickListener { openNavigationDrawer() }
 
-        binding.topAppBar.setOnClickListener {
-            openNavigationDrawer()
-        }
         getProductsFromApI()
 
         binding.navView.setNavigationItemSelectedListener(this)
 
         binding.categoryTabs.addOnTabSelectedListener(this)
 
+        getUserDataFromShared()
+
         }
+
+    private fun getUserDataFromShared(){
+        val gson = Gson()
+        val json = MySharedPreferences.getString(requireContext(),KEY_MY_SHARED_String)
+        val obj = gson.fromJson(json, GetAllUsersResponse::class.java)
+
+        val navigationView = binding.navView
+        val headerView = navigationView.getHeaderView(0)
+
+        headerView.findViewById<TextView>(R.id.nav_name).text = obj.username
+        headerView.findViewById<TextView>(R.id.nav_email).text = obj.email
+    }
+
+    private fun sortItems() {
+        itemList.sortBy {it.price}
+        showProductsOnRecyclerView(itemList)
+    }
 
     private fun getProductsFromApI() {
         RetrofitClient.getClient().getProducts().enqueue(object: Callback<MutableList<GetProductResponseItem>> {
@@ -76,7 +95,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                 response: Response<MutableList<GetProductResponseItem>>
             ) {
                 if (response.isSuccessful) {
-                    showProductsOnRecyclerView(response)
+                    itemList.addAll(response.body()!!)
+                    showProductsOnRecyclerView(itemList)
                     Log.i(TAG, "onResponse: "+ response.body())
                 }
             }
@@ -86,10 +106,10 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         })
     }
 
-    private fun showProductsOnRecyclerView(response: Response<MutableList<GetProductResponseItem>>) {
+    private fun showProductsOnRecyclerView(itemList: MutableList<GetProductResponseItem>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
-        val productsRVAdapter = ProductsRVAdapter(response.body() as MutableList<GetProductResponseItem>,this)
+        val productsRVAdapter = ProductsRVAdapter(itemList,this)
         binding.productsRV.adapter = productsRVAdapter
     }
 
@@ -110,17 +130,35 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             }
             R.id.nav_favorite->
             {
-                Toast.makeText(requireContext(),"Favourite item",Toast.LENGTH_LONG).show()
-                Log.i(TAG, "onNavigationItemSelected: " + "favourite item")
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_favouriteFragment)
             }
             R.id.nav_profile->
             {
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_profileFragment)
             }
+            R.id.nav_logout->
+            {
+                showAlertDialog()
+            }
         }
         binding.drawableLayout.close()
         return true
+    }
+
+    private fun logout() {
+        MySharedPreferences.saveBooleanLogin(requireContext(),KEY_MY_SHARED_BOOLEAN_LOGIN,false)
+        findNavController().popBackStack()
+    }
+
+    private fun showAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setMessage(resources.getString(R.string.dialogMassageLogout))
+            .setNegativeButton(resources.getString(R.string.decline)) { dialog, _ ->
+                dialog.cancel()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
+                logout()
+            }.show()
     }
 
     override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -143,8 +181,10 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
                 response: Response<MutableList<GetProductResponseItem>>
             ) {
                 if (response.isSuccessful){
+                    itemList.clear()
+                    itemList.addAll(response.body()!!)
                     Log.i(TAG, "onResponse: "+response.body())
-                    showProductsOnRecyclerView(response)
+                    showProductsOnRecyclerView(itemList)
                 }
             }
             override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
@@ -169,5 +209,9 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun productClickListener(id: Int) {
         val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(id)
         findNavController().navigate(action)
+    }
+
+    companion object {
+        private const val TAG = "HomeFragment"
     }
 }

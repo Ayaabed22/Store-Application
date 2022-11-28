@@ -8,13 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.storeapplication.R
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentProfileBinding
+import com.example.storeapplication.utils.MySharedPreferences
+import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,13 +39,11 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val shared = requireActivity().getSharedPreferences("User Data", AppCompatActivity.MODE_PRIVATE)
-        val userdata = shared.getString("userData", "")
+        MySharedPreferences.getPrefs(requireContext())
+        val json= MySharedPreferences.getString(requireContext(),KEY_MY_SHARED_String)
         val gson = Gson()
-        val json: String? = shared.getString("userData", "")
         val obj: GetAllUsersResponse? = gson.fromJson(json, GetAllUsersResponse::class.java)
 
-        Log.i(TAG, "onViewCreated: $userdata")
         getProfile(obj?.id.toString())
         binding.userData = obj
 

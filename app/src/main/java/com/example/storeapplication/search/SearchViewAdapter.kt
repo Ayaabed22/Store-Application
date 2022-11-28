@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.search
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.R
 import com.example.storeapplication.favourite.ui.ItemClick
 import com.squareup.picasso.Picasso
 
-class AdaterSearchview(
+class SearchViewAdapter(
     private var productsList: MutableList<GetProductResponseItem>,
     private var itemClick: ItemClick
-) : RecyclerView.Adapter<AdaterSearchview.ProductsViewHolder>(){
+) : RecyclerView.Adapter<SearchViewAdapter.ProductsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
         return ProductsViewHolder(

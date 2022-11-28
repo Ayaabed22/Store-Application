@@ -28,9 +28,19 @@
     <string name="Open">Open</string>
     <string name="checkout">Checkout</string>
     <string name="all">All</string>
-    <string name="rating">\@String_rating</string>
+    <string name="rating">Rating</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="image">image</string>
+    <string name="description">Description</string>
+    <string name="product_name">Product Name</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="favourites">Favourites</string>
+    <string name="profile">Profile</string>
+    <string name="cart">Cart</string>
+    <string name="logout">Logout</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="dialogMassage">Are You Sure to Delete item From Favourite</string>
+    <string name="dialogMassageLogout">Are You Sure to Logout</string>
+
 </resources>
