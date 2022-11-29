@@ -2,7 +2,6 @@ package com.example.storeapplication.cart.data
 
 import com.example.storeapplication.signUp.data.Address
 
-
 data class GetAllUsersResponse(
 	val id: Int? = null,
 	val username: String? = null,

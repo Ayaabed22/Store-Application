@@ -17,6 +17,7 @@ import com.example.storeapplication.signUp.data.Address
 import com.example.storeapplication.signUp.data.Name
 import com.example.storeapplication.signUp.data.SignUpRequest
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class SignupFragment : Fragment() {
     private lateinit var binding: FragmentSignupBinding
     private val signUpViewModel: SignUpViewModel by viewModels()

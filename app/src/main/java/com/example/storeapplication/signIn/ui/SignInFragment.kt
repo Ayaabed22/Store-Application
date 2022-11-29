@@ -1,6 +1,5 @@
 package com.example.storeapplication.signIn.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.storeapplication.R
 import com.example.storeapplication.cart.data.GetAllUsersResponse
@@ -17,25 +15,11 @@ import com.example.storeapplication.utils.MySharedPreferences
 import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
 import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
 import com.google.gson.Gson
-import kotlin.math.sign
 
 class SignInFragment : Fragment() {
 
     private lateinit var binding: FragmentSigninBinding
-    private var fragmentContext: Context?=null
     private val signInViewModel:SignInViewModel by viewModels()
-    private val userDataViewModel:UserDataViewModel by viewModels()
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        fragmentContext = null
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,19 +54,15 @@ class SignInFragment : Fragment() {
     private fun navigate(destination: Int) = view?.findNavController()?.navigate(destination)
 
     private fun getUserData(userName: String){
-        userDataViewModel.getUserData(userName)
-        userDataViewModel.userData.observe(viewLifecycleOwner,::safeUserData)
+        signInViewModel.getUserData(userName)
+        signInViewModel.userData.observe(viewLifecycleOwner,::safeUserData)
     }
 
     private fun safeUserData(userData: GetAllUsersResponse?) {
         val gson = Gson()
         val json = gson.toJson(userData)
-        MySharedPreferences.getPrefs(fragmentContext)
-        MySharedPreferences.saveString(fragmentContext,KEY_MY_SHARED_String,json)
-        MySharedPreferences.saveBooleanLogin(fragmentContext, KEY_MY_SHARED_BOOLEAN_LOGIN,true)
-    }
-
-    companion object {
-        private const val  TAG = "SignIn"
+        MySharedPreferences.getPrefs(requireContext())
+        MySharedPreferences.saveBoolean(requireContext(),KEY_MY_SHARED_BOOLEAN_LOGIN,true)
+        MySharedPreferences.saveString(requireContext(),KEY_MY_SHARED_String,json)
     }
 }

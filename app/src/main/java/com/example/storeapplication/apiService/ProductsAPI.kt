@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.apiService
 
 import com.example.storeapplication.home.data.GetProductResponseItem
 import retrofit2.Call

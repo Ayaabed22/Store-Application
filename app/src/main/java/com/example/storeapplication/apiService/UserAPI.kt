@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.apiService
 
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.signIn.data.SignInRequest

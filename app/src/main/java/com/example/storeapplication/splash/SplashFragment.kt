@@ -22,17 +22,17 @@ class SplashFragment : Fragment() {
 
         binding = FragmentSplashBinding.inflate(inflater,container,false)
         Handler(Looper.myLooper()!!).postDelayed({
-//            MySharedPreferences.getPrefs(requireContext())
-//
-//            val isLogin = MySharedPreferences.getBooleanLogin(requireContext(),MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN)
-//
-//            if (isLogin == true){
-//                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-//            }
-//            else{
+            MySharedPreferences.getPrefs(requireContext())
+
+            val isLogin = MySharedPreferences.getBoolean(requireContext(),MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN)
+
+            if (isLogin == true){
+                findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+            }
+            else{
                 findNavController().navigate(R.id.action_splashFragment_to_signin)
-//            }
-        },5000)
+            }
+        },2000)
         return binding.root
     }
 }

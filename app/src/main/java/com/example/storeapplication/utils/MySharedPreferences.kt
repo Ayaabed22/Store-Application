@@ -2,6 +2,8 @@ package com.example.storeapplication.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.storeapplication.cart.data.GetAllUsersResponse
+import com.google.gson.Gson
 
 object MySharedPreferences {
 
@@ -18,12 +20,12 @@ object MySharedPreferences {
     }
 
     //Save Booleans
-    fun saveBooleanLogin(context: Context?, key: String?, value: Boolean) {
+    fun saveBoolean(context: Context?, key: String?, value: Boolean) {
         getPrefs(context)?.edit()?.putBoolean(key, value)?.apply()
     }
 
     //Get Booleans
-    fun getBooleanLogin(context: Context?, key: String?): Boolean? {
+    fun getBoolean(context: Context?, key: String?): Boolean? {
         return getPrefs(context)?.getBoolean(key,false)
     }
 
@@ -34,5 +36,11 @@ object MySharedPreferences {
 
     fun getString(context: Context?, key: String?): String? {
         return getPrefs(context)?.getString(key, "")
+    }
+
+    fun getUserDataFromShared(context: Context?): GetAllUsersResponse {
+        val gson = Gson()
+        val json = getString(context, KEY_MY_SHARED_String)
+        return gson.fromJson(json, GetAllUsersResponse::class.java)
     }
 }

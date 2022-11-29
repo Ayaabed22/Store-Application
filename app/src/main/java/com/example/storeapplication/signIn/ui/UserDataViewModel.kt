@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.storeapplication.RetrofitClient
-import com.example.storeapplication.UserAPI
+import com.example.storeapplication.apiService.UserAPI
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import retrofit2.Call
 import retrofit2.Callback

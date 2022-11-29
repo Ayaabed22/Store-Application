@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.storeapplication.ProductsAPI
+import com.example.storeapplication.apiService.ProductsAPI
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.home.data.GetProductResponseItem
 import retrofit2.Call
@@ -14,10 +14,11 @@ import retrofit2.Response
 class ProductDetailsViewModel:ViewModel() {
 
     val itemDetails = MutableLiveData<GetProductResponseItem>()
+    private val tag = "ProductsDetailsViewModel"
+    private val client = RetrofitClient.getInstance()!!.create(ProductsAPI::class.java)
 
     @SuppressLint("LongLogTag")
     fun productDetails(productId:Int){
-        val client = RetrofitClient.getInstance()!!.create(ProductsAPI::class.java)
         client.getProductDetails((productId).toString()).enqueue(object :
             Callback<GetProductResponseItem> {
             override fun onResponse(
@@ -26,18 +27,14 @@ class ProductDetailsViewModel:ViewModel() {
             ) {
                 if (response.isSuccessful){
                     itemDetails.value = response.body()
-//                    setData(response)
-                    Log.i(TAG, "onResponse: " + response.body())
+                    Log.i(tag, "onResponse: " + response.body())
                 }
             }
 
             override fun onFailure(call: Call<GetProductResponseItem>, t: Throwable) {
-                Log.i(TAG, "onFailure: "+t.localizedMessage)
+                Log.i(tag, "onFailure: "+t.localizedMessage)
             }
 
         })
-    }
-    companion object {
-        const val TAG = "ProductsDetailsViewModel"
     }
 }
