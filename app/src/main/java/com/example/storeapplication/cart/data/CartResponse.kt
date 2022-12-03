@@ -1,4 +1,4 @@
-package com.example.storeapplication.cart.data
+package com.example.storeapplication.cart.data /*TODO: add extra line below this and check for the other files*/
 data class CartResponse(
     val date: String? = null,
     val id: Int? = null,
