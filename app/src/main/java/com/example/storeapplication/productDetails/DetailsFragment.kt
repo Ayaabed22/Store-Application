@@ -8,22 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.storeapplication.GetProductResponseItem
+import androidx.fragment.app.viewModels
+import com.example.storeapplication.home.data.GetProductResponseItem
 import com.example.storeapplication.R
-import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentDeatilesBinding
 import com.example.storeapplication.favourite.data.FavouriteDatabase
 import com.example.storeapplication.favourite.data.FavouriteModel
 import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 class DetailsFragment : Fragment(){
     private lateinit var binding: FragmentDeatilesBinding
     private lateinit var args : DetailsFragmentArgs
+    private val productDetailsViewModel: ProductDetailsViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,36 +41,24 @@ class DetailsFragment : Fragment(){
         getProductDetails(args.detailsArgs)
 
 }
-    private fun getProductDetails(productId: Int) {
-        RetrofitClient.getClient().getProductDetails((productId).toString()).enqueue(object : Callback<GetProductResponseItem>{
-            override fun onResponse(
-                call: Call<GetProductResponseItem>,
-                response: Response<GetProductResponseItem>
-            ) {
-                if (response.isSuccessful){
-                    setData(response)
-                    Log.i(TAG, "onResponse: " + response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<GetProductResponseItem>, t: Throwable) {
-                Log.i(TAG, "onFailure: "+t.localizedMessage)
-            }
-
-        })
+    private fun getProductDetails(productId: Int)
+    {
+        productDetailsViewModel.productDetails(productId = productId)
+        productDetailsViewModel.itemDetails.observe(viewLifecycleOwner) {
+            setData(it)
+        }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setData(response:Response<GetProductResponseItem>) {
-        binding.productName.text = response.body()?.title
-        binding.productDescription.text = response.body()?.description
-        binding.productPrice.text = "EGP: ${response.body()?.price}"
-        Picasso.get().load(response.body()?.image).into(binding.productImage)
-        binding.ratingbar.rating= response.body()?.rating?.rate?.toFloat()!!
+    private fun setData(response:GetProductResponseItem) {
+        binding.productName.text = response.title
+        binding.productDescription.text = response.description
+        binding.productPrice.text = "EGP: ${response.price}"
+        Picasso.get().load(response.image).into(binding.productImage)
+        binding.ratingbar.rating= response.rating.rate.toFloat()
 
         binding.favouriteIcon.setOnClickListener {
-            if (response.body() != null)
-                addToFavourite(response.body()!!)
+            addToFavourite(response)
         }
     }
 

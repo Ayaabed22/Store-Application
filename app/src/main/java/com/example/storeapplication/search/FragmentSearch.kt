@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.storeapplication.GetProductResponseItem
+import com.example.storeapplication.home.data.GetProductResponseItem
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.databinding.FragmentSearchBinding
 import com.example.storeapplication.favourite.ui.ItemClick
@@ -67,20 +67,21 @@ class FragmentSearch : Fragment(),ItemClick {
         })
     }
 
-    private fun getProductsFromApI() { RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
-                override fun onResponse(call: Call<MutableList<GetProductResponseItem>>, response: Response<MutableList<GetProductResponseItem>>) {
-                    if (response.isSuccessful) {
-                        response.body()?.let { productsList.addAll(it) }
-                        tempList.addAll(productsList)
-                        showProductsOnRecyclerView(productsList)
-                        Log.i(TAG, "onResponse: " + response.body())
-                    }
-                }
-
-                override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                    Log.i(TAG, "onFailure: " + t.localizedMessage)
-                }
-            })
+    private fun getProductsFromApI() {
+//        RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
+//                override fun onResponse(call: Call<MutableList<GetProductResponseItem>>, response: Response<MutableList<GetProductResponseItem>>) {
+//                    if (response.isSuccessful) {
+//                        response.body()?.let { productsList.addAll(it) }
+//                        tempList.addAll(productsList)
+//                        showProductsOnRecyclerView(productsList)
+//                        Log.i(TAG, "onResponse: " + response.body())
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
+//                    Log.i(TAG, "onFailure: " + t.localizedMessage)
+//                }
+//            })
     }
 
 

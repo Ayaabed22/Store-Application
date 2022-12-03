@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.home.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +9,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.storeapplication.ProductsAPI
+import com.example.storeapplication.home.data.GetProductResponseItem
+import com.example.storeapplication.R
+import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentHomeBinding
 import com.example.storeapplication.favourite.ui.ItemClick
@@ -35,6 +40,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
     private var itemList = mutableListOf<GetProductResponseItem>()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val productsCategoryViewModel: ProductsCategoryViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
@@ -49,7 +56,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
         binding.topAppBar.setOnMenuItemClickListener {
            when (it.itemId) {
-               R.id.searchIcon-> {
+               R.id.searchIcon -> {
                    findNavController().navigate(R.id.action_homeFragment_to_fragmentSearch)
                }
                R.id.sort -> {
@@ -89,21 +96,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun getProductsFromApI() {
-        RetrofitClient.getClient().getProducts().enqueue(object: Callback<MutableList<GetProductResponseItem>> {
-            override fun onResponse(
-                call: Call<MutableList<GetProductResponseItem>>,
-                response: Response<MutableList<GetProductResponseItem>>
-            ) {
-                if (response.isSuccessful) {
-                    itemList.addAll(response.body()!!)
-                    showProductsOnRecyclerView(itemList)
-                    Log.i(TAG, "onResponse: "+ response.body())
-                }
-            }
-            override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                Log.i(TAG, "onFailure: " + t.localizedMessage)
-            }
-        })
+        homeViewModel.getProducts()
+        homeViewModel.itemList.observe(viewLifecycleOwner,::showProductsOnRecyclerView)
     }
 
     private fun showProductsOnRecyclerView(itemList: MutableList<GetProductResponseItem>) {
@@ -123,20 +117,20 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.nav_cart->
+            R.id.nav_cart ->
             {
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_cartFragment)
 
             }
-            R.id.nav_favorite->
+            R.id.nav_favorite ->
             {
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_favouriteFragment)
             }
-            R.id.nav_profile->
+            R.id.nav_profile ->
             {
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_profileFragment)
             }
-            R.id.nav_logout->
+            R.id.nav_logout ->
             {
                 showAlertDialog()
             }
@@ -175,22 +169,8 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun productsInSpecificCategory(category: String) {
-        RetrofitClient.getClient().getProductsInSpecificCategory(category).enqueue(object: Callback<MutableList<GetProductResponseItem>>{
-            override fun onResponse(
-                call: Call<MutableList<GetProductResponseItem>>,
-                response: Response<MutableList<GetProductResponseItem>>
-            ) {
-                if (response.isSuccessful){
-                    itemList.clear()
-                    itemList.addAll(response.body()!!)
-                    Log.i(TAG, "onResponse: "+response.body())
-                    showProductsOnRecyclerView(itemList)
-                }
-            }
-            override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                Log.i(TAG, "onFailure: " + t.localizedMessage)
-            }
-        })
+        productsCategoryViewModel.productsInSpesificCategory(categoryName = category)
+        productsCategoryViewModel.itemList.observe(viewLifecycleOwner,::showProductsOnRecyclerView)
     }
 
     override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -212,6 +192,6 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     }
 
     companion object {
-        private const val TAG = "HomeFragment"
+        const val TAG = "HomeFragment"
     }
 }

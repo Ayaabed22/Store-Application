@@ -1,4 +1,4 @@
-package com.example.storeapplication.signUp
+package com.example.storeapplication.signUp.data
 
 data class SignUpRequest(
     var email: String? = null,
