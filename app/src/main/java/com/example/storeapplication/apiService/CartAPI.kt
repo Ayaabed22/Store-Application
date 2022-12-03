@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface CartAPI {
     @GET("carts/user/{id}")
-    fun getUserCarts(@Path("id") id: Int) : Call<MutableList<CartResponse>>
+    suspend fun getUserCarts(@Path("id") id: Int) : List<CartResponse>
 }

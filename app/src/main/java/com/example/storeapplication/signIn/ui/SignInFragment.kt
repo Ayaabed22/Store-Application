@@ -45,7 +45,7 @@ class SignInFragment : Fragment() {
 
     private fun onSignInResponse(isSuccessful: Boolean) = when (isSuccessful) {
         true -> {
-            getUserData(userName = binding.etUserName.text.toString())
+            getLoggedUserData(binding.etUserName.text.toString())
             navigate(R.id.action_signin_to_homeFragment)
         }
         else -> Toast.makeText(requireContext(), "Sign In Failed!", Toast.LENGTH_SHORT).show()
@@ -53,16 +53,7 @@ class SignInFragment : Fragment() {
 
     private fun navigate(destination: Int) = view?.findNavController()?.navigate(destination)
 
-    private fun getUserData(userName: String){
-        signInViewModel.getUserData(userName)
-        signInViewModel.userData.observe(viewLifecycleOwner,::safeUserData)
-    }
-
-    private fun safeUserData(userData: GetAllUsersResponse?) {
-        val gson = Gson()
-        val json = gson.toJson(userData)
-        MySharedPreferences.getPrefs(requireContext())
-        MySharedPreferences.saveBoolean(requireContext(),KEY_MY_SHARED_BOOLEAN_LOGIN,true)
-        MySharedPreferences.saveString(requireContext(),KEY_MY_SHARED_String,json)
+    private fun getLoggedUserData(userName: String){
+        signInViewModel.getLoggedUserData(userName,requireContext())
     }
 }

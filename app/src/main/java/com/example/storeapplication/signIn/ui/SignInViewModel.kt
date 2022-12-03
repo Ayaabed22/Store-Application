@@ -1,64 +1,55 @@
 package com.example.storeapplication.signIn.ui
 
-import android.util.Log
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.storeapplication.RetrofitClient
 import com.example.storeapplication.apiService.UserAPI
 import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.signIn.data.SignInRequest
-import com.example.storeapplication.signIn.data.SignInResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.storeapplication.utils.Const.Companion.errorHandler
+import com.example.storeapplication.utils.MySharedPreferences
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignInViewModel:ViewModel() {
-
-    private val tag = "SignInViewModel"
     val isSuccessfulAuthentication = MutableLiveData<Boolean>()
-    var userData = MutableLiveData<GetAllUsersResponse>()
+    var userData = MutableLiveData<GetAllUsersResponse?>()
     private val client = RetrofitClient.getInstance()!!.create(UserAPI::class.java)
 
 
     fun checkEnteredData(userName: String, password: String) {
         val loginRequest = SignInRequest(userName, password)
-        client.login(loginRequest).enqueue(object : Callback<SignInResponse> {
-            override fun onResponse(
-                call:Call<SignInResponse>,
-                response: Response<SignInResponse>
-            ) {
-                if (response.isSuccessful) {
-                    Log.i(tag, "onResponse: " + response.body().toString())
-                    isSuccessfulAuthentication.value = true
-                } else {
-                    Log.i(tag, "onResponse: "+ response.errorBody())
-                    isSuccessfulAuthentication.value = false
-                }
-            }
-            override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
-                Log.i(tag, "onFailure:  " + t.localizedMessage)
-                isSuccessfulAuthentication.value = false
-            }
-        })
+        viewModelScope.launch(errorHandler) {
+            val response = login(loginRequest)
+             isSuccessfulAuthentication.value = !response.token.isNullOrEmpty()
+        }
+    }
+
+    private suspend fun login(loginRequest: SignInRequest) = withContext(Dispatchers.IO) {
+        client.login(loginRequest)
     }
 
 
-    fun getUserData(userName:String){
-        client.getAllUsers().enqueue(object : Callback<MutableList<GetAllUsersResponse>> {
-            override fun onResponse(
-                call: Call<MutableList<GetAllUsersResponse>>,
-                response: Response<MutableList<GetAllUsersResponse>>
-            ) {
-                if (response.isSuccessful){
-                    Log.i(tag, "onResponse: " + response.body().toString())
-                    userData.value = response.body()?.find { it.username == userName }
-                    Log.i(tag, "User Name: " + response.body()?.find { it.username == userName })
-                }
-            }
+    fun getLoggedUserData(userName:String,context: Context){
+        viewModelScope.launch (errorHandler) {
+            val user = getUser(userName)
+            userData.value = user
+            safeUserDataOnSP(user,context)
+        }
+    }
+    private suspend fun getUser(userName:String) = withContext(Dispatchers.IO){
+        client.getAllUsers().find { it.username == userName }
+    }
 
-            override fun onFailure(call: Call<MutableList<GetAllUsersResponse>>, t: Throwable) {
-                Log.i(tag, "onFailure: "+ t.localizedMessage)
-            }
-        })
+    private fun safeUserDataOnSP(user:GetAllUsersResponse?,context: Context?) {
+        val gson = Gson()
+        val json = gson.toJson(user)
+        MySharedPreferences.getPrefs(context)
+        MySharedPreferences.saveBoolean(context, MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN, true)
+        MySharedPreferences.saveString(context, MySharedPreferences.KEY_MY_SHARED_String, json)
     }
 }

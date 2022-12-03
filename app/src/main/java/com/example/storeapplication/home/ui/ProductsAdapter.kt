@@ -10,7 +10,7 @@ import com.example.storeapplication.databinding.ProductsItemUiBinding
 import com.example.storeapplication.favourite.ui.ItemClick
 import com.squareup.picasso.Picasso
 
-class ProductsAdapter(private val productsList: MutableList<GetProductResponseItem>, private val itemClick: ItemClick)
+class ProductsAdapter(private val productsList: List<GetProductResponseItem>, private val itemClick: ItemClick)
     :RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductsViewHolder {
