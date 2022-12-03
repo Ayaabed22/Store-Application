@@ -14,7 +14,9 @@ import com.example.storeapplication.utils.Const.Companion.favouriteDao
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class FavouriteFragment : Fragment() ,ItemClick{
-    private lateinit var binding:FragmentFavouriteBinding
+
+    private lateinit var binding:FragmentFavouriteBinding /*TODO: Fix line spacing in this class*/
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,25 +28,25 @@ class FavouriteFragment : Fragment() ,ItemClick{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao() /*TODO: move to VM*/
 
-        favouriteDao.getFavourites()
+        favouriteDao.getFavourites() /*TODO: move to VM*/
         setDataOnRV()
     }
 
 
-    private fun setDataOnRV(){
+    private fun setDataOnRV(){ /*TODO: ambitious naming of function*/
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.favouriteRV.layoutManager = layoutManager
-        val favouriteAdapter = FavouriteAdapter(favouriteDao.getFavourites(),this)
+        val favouriteAdapter = FavouriteAdapter(favouriteDao.getFavourites(),this) /*TODO: variables could be initialised together first*/
         binding.favouriteRV.adapter = favouriteAdapter
     }
 
-    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
-        showAlertDialog(id)
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) { /*TODO: rename to 'onFavouriteIconClick'*/
+        showAlertDialog(id)/*TODO: other arguments aren't used, function should be changed*/
     }
 
-    override fun productClickListener(id: Int) {
+    override fun productClickListener(id: Int) { /*TODO: rename to 'onProductClick'*/
         val action= FavouriteFragmentDirections.actionFavouriteFragmentToDeatilesFragment(id)
         findNavController().navigate(action)
     }
@@ -56,7 +58,7 @@ class FavouriteFragment : Fragment() ,ItemClick{
                 dialog.cancel()
             }
             .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
-                favouriteDao.deleteByItemId(id)
+                favouriteDao.deleteByItemId(id) /*TODO extract to a function in ViewModel*/
                 setDataOnRV()
             }.show()
     }

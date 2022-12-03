@@ -9,7 +9,7 @@ object MySharedPreferences {
 
     private var mSharedPref: SharedPreferences?=null
     private const val SHARED_PREFS_FILE_NAME = "my_app_shared_prefs"
-    var KEY_MY_SHARED_BOOLEAN_LOGIN = "Is Login"
+    var KEY_MY_SHARED_BOOLEAN_LOGIN = "Is Login" /*TODO: we usually don't have spaces in keys, also they should be immutable, use val*/
     var KEY_MY_SHARED_String = "User Data"
 
     fun getPrefs(context: Context?): SharedPreferences? {
@@ -18,7 +18,7 @@ object MySharedPreferences {
             }
         return mSharedPref
     }
-
+/*TODO: Remove comments when they aren't adding extra meaning*/
     //Save Booleans
     fun saveBoolean(context: Context?, key: String?, value: Boolean) {
         getPrefs(context)?.edit()?.putBoolean(key, value)?.apply()

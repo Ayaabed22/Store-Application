@@ -25,18 +25,23 @@ class CartViewModel:ViewModel() {
             val userCarts = getUserCartFromApi(id)
             cartItems.value = createList(userCarts)
         }
-    }
+    }/*TODO: add an extra line here, and please check the rest of the files for proper spacing between the functions*/
     private suspend fun getUserCartFromApi(id:Int)= withContext(Dispatchers.IO){
         client.getUserCarts(id)
     }
 
     private fun createList(responseBody:List<CartResponse>) =
-        buildList {
+        buildList { /*TODO: several nesting is done here, could be reduced */
             responseBody.forEach {
-                it.products?.let { it1 ->
+                it.products?.let { it1 -> /*TODO: it1 seems ambiguous, either keep it as 'it' or give a meaningful name*/
                     addAll(it1.toMutableList())
                 }
             }
         }
-
+   /*
+    private fun createList2(responseBody: List<CartResponse>) = buildList {
+        responseBody.filter { it.products != null }.forEach {
+            addAll(it.products?.toMutableList() ?: emptyList())
+        }
+    }*/
 }

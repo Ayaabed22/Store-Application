@@ -30,7 +30,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val obj =MySharedPreferences.getUserDataFromShared(requireContext())
+        val obj =MySharedPreferences.getUserDataFromShared(requireContext()) /*TODO: change naming of 'obj'*/
         getProfile(obj.id.toString())
         binding.userData = obj
 
@@ -46,7 +46,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun bindData(response: GetAllUsersResponse){
+    private fun bindData(response: GetAllUsersResponse){ /*TODO: is it possible to improve naming here?*/
         binding.userData = response.copy()
     }
 

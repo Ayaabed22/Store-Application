@@ -29,7 +29,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
     private val homeViewModel: HomeViewModel by viewModels()
-    private val sortByPrice:Int = 1
+    private val sortByPrice:Int = 1 /*TODO: avoid using magic numbers, use constants instead 1 & 2 don't tell me what they mean */
     private val sortByName:Int = 2
 
     override fun onCreateView(
@@ -44,7 +44,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        MySharedPreferences.getPrefs(requireContext())
+        MySharedPreferences.getPrefs(requireContext()) /*TODO: why is this here?*/
 
         binding.topAppBar.setOnMenuItemClickListener {
            when (it.itemId) {
@@ -57,18 +57,18 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
         binding.topAppBar.setOnClickListener { openNavigationDrawer() }
 
-        getProducts()
+        getProducts() /*TODO: is there a reason why we have function calls before the following set up?*/
 
         binding.navView.setNavigationItemSelectedListener(this)
 
         binding.categoryTabs.addOnTabSelectedListener(this)
 
         setNavigationHeaderData()
-
+        /*TODO: too many unnecessary spacing in this function*/
         }
 
     private fun setNavigationHeaderData(){
-        val obj = MySharedPreferences.getUserDataFromShared(requireContext())
+        val obj = MySharedPreferences.getUserDataFromShared(requireContext()) /*TODO: change 'obj' naming*/
 
         val navigationView = binding.navView
         val headerView = navigationView.getHeaderView(0)
@@ -77,7 +77,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         headerView.findViewById<TextView>(R.id.nav_email).text = obj.email
     }
 
-    private fun sortItems(label:Int) {
+    private fun sortItems(label:Int) { /*TODO: The function doesn't do what its name indicates it's doing*/
         homeViewModel.itemList.observe(viewLifecycleOwner) {
             if (label == sortByName){
                 it.sortBy { item-> item.title }
@@ -86,6 +86,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
             {
                 it.sortBy { item-> item.price }
             }
+            /*TODO: extract sorting logic to a separate function in the VM*/
             showProductsOnRecyclerView(it)
         }
 
@@ -96,7 +97,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         homeViewModel.getProducts()
     }
 
-    private fun showProductsOnRecyclerView(itemList: List<GetProductResponseItem>) {
+    private fun showProductsOnRecyclerView(itemList: List<GetProductResponseItem>) { /*TODO: Creating these variables and setting them every time is an overhead please fix */
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
         val productsAdapter = ProductsAdapter(itemList,this)
@@ -104,6 +105,10 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     }
 
     private fun openNavigationDrawer() {
+        /*TODO: make use of
+           1- with(binding.drawableLayout) {}
+           2- extract GravityCompat.START in a variable like 'desiredGravity'
+           */
         if (binding.drawableLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawableLayout.closeDrawer(GravityCompat.START)
         } else {
@@ -112,7 +117,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when(item.itemId){ /*TODO: remove empty lines*/
             R.id.nav_cart -> navigate(R.id.action_homeFragment_to_cartFragment)
 
             R.id.nav_favorite -> navigate(R.id.action_homeFragment_to_favouriteFragment)
@@ -163,12 +168,12 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     override fun onTabReselected(tab: TabLayout.Tab?) {}
 
-    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
-        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
-        favouriteDao.insertItem(FavouriteModel(id,name,price,image))
+    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) { /*TODO: this method can simply take FavouriteModel instead of all these args*/
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao() /*TODO:why instantiate this every time? try to extract this line to VM */
+        favouriteDao.insertItem(FavouriteModel(id,name,price,image)) /*TODO: extract this line into a separate function in the VM*/
     }
 
-    override fun productClickListener(id: Int) {
+    override fun productClickListener(id: Int) { /*TODO: rename the argument*/
         val action= HomeFragmentDirections.actionHomeFragmentToDeatilesFragment(id)
         findNavController().navigate(action)
     }

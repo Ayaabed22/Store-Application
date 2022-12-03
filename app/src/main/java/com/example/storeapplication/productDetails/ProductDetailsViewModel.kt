@@ -1,5 +1,5 @@
 package com.example.storeapplication.productDetails
-
+/*TODO: remove unused imports here and in other files*/
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +18,7 @@ import retrofit2.Response
 class ProductDetailsViewModel:ViewModel() {
 
     val itemDetails = MutableLiveData<GetProductResponseItem>()
-    private val tag = "ProductsDetailsViewModel"
+    private val tag = "ProductsDetailsViewModel"  /*TODO: remove unused tag here and in other classes*/
     private val client = RetrofitClient.getInstance()!!.create(ProductsAPI::class.java)
 
     fun productDetails(productId:Int){

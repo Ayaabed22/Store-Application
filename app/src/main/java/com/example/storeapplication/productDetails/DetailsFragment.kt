@@ -29,13 +29,13 @@ class DetailsFragment : Fragment(){
     ): View {
         binding = FragmentDeatilesBinding.inflate(inflater, container, false)
         return binding.root
-
+/*TODO: remove extra empty line*/
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+/*TODO: remove extra empty lines*/
         args = DetailsFragmentArgs.fromBundle(requireArguments())
         Log.i(TAG, "onViewCreated: " + args.detailsArgs)
         getProductDetails(args.detailsArgs)
@@ -49,8 +49,10 @@ class DetailsFragment : Fragment(){
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setData(response:GetProductResponseItem) {
+    @SuppressLint("SetTextI18n")/*TODO: remove & fix warning*/
+    private fun setData(response:GetProductResponseItem) {  /*TODO: try to give a more meaningful name*/
+        /*TODO: make use of binding.apply{} */
+
         binding.productName.text = response.title
         binding.productDescription.text = response.description
         binding.productPrice.text = "EGP: ${response.price}"
@@ -59,13 +61,14 @@ class DetailsFragment : Fragment(){
 
         binding.favouriteIcon.setOnClickListener {
             addToFavourite(response)
-        }
+        } /*TODO: could be shortened in one line*/
     }
 
     private fun addToFavourite(body: GetProductResponseItem) {
         binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
-        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()
-        favouriteDao.insertItem(FavouriteModel(body.id,body.title,body.price,body.image))
+        favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao() /*TODO: should happen once in VM*/
+        favouriteDao.insertItem(FavouriteModel(body.id,body.title,body.price,body.image)) /*TODO: should hbe moved to VM*/
+        /*TODO: this conversion [FavouriteModel(body.id,body.title,body.price,body.image)] should have a separate method*/
     }
 
 }

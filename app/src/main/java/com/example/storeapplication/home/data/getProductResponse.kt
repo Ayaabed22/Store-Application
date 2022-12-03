@@ -10,4 +10,4 @@ data class GetProductResponseItem(
 	val category : String,
 	val image : String,
 	val rating : Rating,
-	val quantity : Int?=null)
+	val quantity : Int?=null) /*TODO: rename class to a more meaningful one*/

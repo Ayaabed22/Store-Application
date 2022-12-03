@@ -37,7 +37,7 @@ class FragmentSearch : Fragment(),ItemClick {
         super.onViewCreated(view, savedInstanceState)
 
         getProductsFromApI()
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{ /*TODO: this object could be extracted*/
             override fun onQueryTextSubmit(query: String?): Boolean {
                return  false
             }

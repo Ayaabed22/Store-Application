@@ -15,19 +15,18 @@ class HomeViewModel : ViewModel() {
     val itemList = MutableLiveData<MutableList<GetProductResponseItem>>()
     private var client: ProductsAPI = RetrofitClient.getInstance()!!.create(ProductsAPI::class.java)
 
-
     fun getProducts() {
         viewModelScope.launch(errorHandler) {
             val products = getProductsFromAPI()
-            itemList.value = products.toMutableList()
+            itemList.value = products.toMutableList() /*TODO: could be set directly to itemList.value = getProductsFromAPI().toMutableList or also move '.toMutableList()' to the function you're calling*/
         }
     }
 
     private suspend fun getProductsFromAPI() = withContext(Dispatchers.IO) { client.getProducts() }
+
     private suspend fun getProductsInCategory(categoryName: String) = withContext(Dispatchers.IO) {
         client.getProductsInSpecificCategory(categoryName)
     }
-
 
     fun productsInSpecificCategory(categoryName: String) {
         viewModelScope.launch(errorHandler) {
