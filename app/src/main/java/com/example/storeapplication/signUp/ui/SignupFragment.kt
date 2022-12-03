@@ -2,26 +2,27 @@ package com.example.storeapplication.signUp.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.example.storeapplication.RetrofitClient
+import com.example.storeapplication.R
 import com.example.storeapplication.databinding.FragmentSignupBinding
-import com.example.storeapplication.signUp.*
-import com.example.storeapplication.signUp.data.SignUpResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.storeapplication.home.ui.HomeViewModel
+import com.example.storeapplication.signIn.ui.SignInViewModel
+import com.example.storeapplication.signUp.data.Address
+import com.example.storeapplication.signUp.data.Name
+import com.example.storeapplication.signUp.data.SignUpRequest
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class SignupFragment : Fragment() {
     private lateinit var binding: FragmentSignupBinding
-    companion object {
-        private const val TAG = "SignupFragment"
-    }
+    private val signUpViewModel: SignUpViewModel by viewModels()
+    private lateinit var view1: View
+
     private var fragmentContext: Context?=null
 
     override fun onAttach(context: Context) {
@@ -45,39 +46,15 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.signInBtn.setOnClickListener {
-            view.findNavController().popBackStack()
-        }
+        binding.signInBtn.setOnClickListener { view.findNavController().popBackStack() }
 
         binding.signUpBtn.setOnClickListener {
-            val signUpRequest = getData()
-
-            RetrofitClient.getClient().signUp(signUpRequest)
-                .enqueue(object : Callback<SignUpResponse> {
-                    override fun onResponse(
-                        call: Call<SignUpResponse>,
-                        response: Response<SignUpResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            Log.i(TAG, "onResponse: " + response.body().toString())
-                            makeToast("Register Success")
-                            view.findNavController().popBackStack()
-                        }
-                        else{
-                            Log.i(TAG, "onResponse: " + response.errorBody().toString())
-                            makeToast(response.errorBody().toString())
-                        }
-                    }
-                    override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
-                        Log.i(TAG, "onFailure: " + t.localizedMessage)
-                        makeToast(t.localizedMessage)
-                    }
-                })
+            signUpViewModel.checkEnteredData(getData())
         }
+        signUpViewModel.isSuccessfulSignUp.observe(viewLifecycleOwner,::onSignUpResponse)
     }
 
-    private fun getData() : SignUpRequest{
+    private fun getData() : SignUpRequest {
         val firstName = binding.etFirstName.text.toString()
         val lastName = binding.etLastName.text.toString()
         val userName = binding.etUserName.text.toString()
@@ -93,9 +70,21 @@ class SignupFragment : Fragment() {
             Address(city, street, number),phone)
     }
 
+    private fun onSignUpResponse(isSuccessful: Boolean) = when (isSuccessful){
+        true -> {
+            makeToast("Register Success")
+            view?.findNavController()?.popBackStack()
+        }
+
+        else ->makeToast("Register Failed")
+
+    }
+
     private fun makeToast(text:String){
         activity?.runOnUiThread {
             Toast.makeText(fragmentContext,text,Toast.LENGTH_LONG).show()
         }
     }
 }
+
+

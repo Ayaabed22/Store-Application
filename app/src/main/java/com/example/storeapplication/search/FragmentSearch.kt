@@ -8,22 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.storeapplication.GetProductResponseItem
-import com.example.storeapplication.RetrofitClient
+import com.example.storeapplication.home.data.GetProductResponseItem
 import com.example.storeapplication.databinding.FragmentSearchBinding
 import com.example.storeapplication.favourite.ui.ItemClick
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.storeapplication.home.ui.HomeViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class FragmentSearch : Fragment(),ItemClick {
     lateinit var binding: FragmentSearchBinding
-     var productsList = arrayListOf<GetProductResponseItem>()
+    var productsList = arrayListOf<GetProductResponseItem>()
     var tempList= arrayListOf<GetProductResponseItem>()
+    private val homeViewModel:HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,20 +66,14 @@ class FragmentSearch : Fragment(),ItemClick {
         })
     }
 
-    private fun getProductsFromApI() { RetrofitClient.getClient().getProducts().enqueue(object : Callback<MutableList<GetProductResponseItem>> {
-                override fun onResponse(call: Call<MutableList<GetProductResponseItem>>, response: Response<MutableList<GetProductResponseItem>>) {
-                    if (response.isSuccessful) {
-                        response.body()?.let { productsList.addAll(it) }
-                        tempList.addAll(productsList)
-                        showProductsOnRecyclerView(productsList)
-                        Log.i(TAG, "onResponse: " + response.body())
-                    }
-                }
-
-                override fun onFailure(call: Call<MutableList<GetProductResponseItem>>, t: Throwable) {
-                    Log.i(TAG, "onFailure: " + t.localizedMessage)
-                }
-            })
+    private fun getProductsFromApI() {
+        homeViewModel.getProducts()
+        homeViewModel.itemList.observe(viewLifecycleOwner) {
+            it?.let { productsList.addAll(it) }
+            tempList.addAll(productsList)
+            showProductsOnRecyclerView(productsList)
+            Log.i(TAG, "getProductsFromApI: $it")
+        }
     }
 
 

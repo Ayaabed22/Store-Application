@@ -5,12 +5,16 @@
     <item android:id="@+id/searchIcon"
         android:title="@string/search"
         android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/sort"
-        android:title="@string/sort"
-        android:icon="@drawable/ic_baseline_sort_24"
-        app:showAsAction="always"/>
+        android:id="@+id/sortByName"
+        android:title="@string/sort_by_name"
+        app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/sortByPrice"
+        android:title="@string/sort_by_price"
+        android:icon="@drawable/ic_baseline_sort_24"
+        app:showAsAction="never"/>
 </menu>
