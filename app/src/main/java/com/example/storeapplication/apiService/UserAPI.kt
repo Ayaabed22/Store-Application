@@ -13,14 +13,14 @@ import retrofit2.http.Path
 
 interface UserAPI {
     @POST("/auth/login")
-    fun login(@Body signInRequest: SignInRequest) : Call<SignInResponse>
+    suspend fun login(@Body signInRequest: SignInRequest) :SignInResponse
 
     @POST("/users")
-    fun signUp(@Body signUpRequest: SignUpRequest) : Call<SignUpResponse>
+    fun signUp(@Body signUpRequest: SignUpRequest) : SignUpResponse
 
     @GET("/users/{id}")
-    fun getUserData(@Path("id") id:String): Call<GetAllUsersResponse>
+    suspend fun getUserData(@Path("id") id:String): GetAllUsersResponse
 
     @GET("/users")
-    fun getAllUsers(): Call<MutableList<GetAllUsersResponse>>
+    suspend fun getAllUsers(): List<GetAllUsersResponse>
 }

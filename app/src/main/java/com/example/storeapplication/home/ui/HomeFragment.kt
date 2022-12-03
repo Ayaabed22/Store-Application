@@ -2,7 +2,6 @@ package com.example.storeapplication.home.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.core.view.GravityCompat
@@ -25,14 +24,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 
-
-
 class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener, ItemClick{
 
     private lateinit var  binding: FragmentHomeBinding
     private var category: String = ""
     private val homeViewModel: HomeViewModel by viewModels()
-    private val tagHome = "Home Fragment"
     private val sortByPrice:Int = 1
     private val sortByName:Int = 2
 
@@ -53,22 +49,15 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         binding.topAppBar.setOnMenuItemClickListener {
            when (it.itemId) {
                R.id.searchIcon -> navigate(R.id.action_homeFragment_to_fragmentSearch)
-
-               R.id.sortByName-> {
-                   Log.i(tagHome, "onOptionsItemSelected: "+ "Sort by name")
-                   sortItems(sortByName)
-               }
-               R.id.sortByPrice-> {
-                   Log.i(tagHome, "onOptionsItemSelected: "+ "Sort by Price")
-                   sortItems(sortByPrice)
-               }
+               R.id.sortByName-> sortItems(sortByName)
+               R.id.sortByPrice-> sortItems(sortByPrice)
            }
            return@setOnMenuItemClickListener true
        }
 
         binding.topAppBar.setOnClickListener { openNavigationDrawer() }
 
-        getProductsFromApI()
+        getProducts()
 
         binding.navView.setNavigationItemSelectedListener(this)
 
@@ -102,12 +91,12 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     }
 
-    private fun getProductsFromApI() {
-        homeViewModel.getProducts()
+    private fun getProducts() {
         homeViewModel.itemList.observe(viewLifecycleOwner,::showProductsOnRecyclerView)
+        homeViewModel.getProducts()
     }
 
-    private fun showProductsOnRecyclerView(itemList: MutableList<GetProductResponseItem>) {
+    private fun showProductsOnRecyclerView(itemList: List<GetProductResponseItem>) {
         val layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productsRV.layoutManager = layoutManager
         val productsAdapter = ProductsAdapter(itemList,this)
@@ -138,7 +127,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
 
     private fun logout() {
         MySharedPreferences.saveBoolean(requireContext(),KEY_MY_SHARED_BOOLEAN_LOGIN,false)
-        findNavController().popBackStack()
+        navigate(R.id.action_homeFragment_to_signin)
     }
 
     private fun showAlertDialog() {
@@ -155,7 +144,7 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
     override fun onTabSelected(tab: TabLayout.Tab?) {
         if (tab?.position == 0){
             category = ""
-            getProductsFromApI()}
+            getProducts()}
         when(tab?.position){
             1-> category = Const.mensCategory
             2-> category = Const.womenCategory
@@ -170,13 +159,9 @@ class HomeFragment : Fragment(),NavigationView.OnNavigationItemSelectedListener,
         homeViewModel.itemList.observe(viewLifecycleOwner,::showProductsOnRecyclerView)
     }
 
-    override fun onTabUnselected(tab: TabLayout.Tab?) {
-        Log.i(tagHome, "onTabUnselected: ")
-    }
+    override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
-    override fun onTabReselected(tab: TabLayout.Tab?) {
-        Log.i(tagHome, "onTabReselected: ")
-    }
+    override fun onTabReselected(tab: TabLayout.Tab?) {}
 
     override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
         favouriteDao = FavouriteDatabase.getDatabaseInstance(requireContext()).favouriteDao()

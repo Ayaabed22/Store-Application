@@ -49,7 +49,7 @@ class SignupFragment : Fragment() {
         binding.signInBtn.setOnClickListener { view.findNavController().popBackStack() }
 
         binding.signUpBtn.setOnClickListener {
-            signUpViewModel.signUp(getData())
+            signUpViewModel.checkEnteredData(getData())
         }
         signUpViewModel.isSuccessfulSignUp.observe(viewLifecycleOwner,::onSignUpResponse)
     }

@@ -8,11 +8,11 @@ import retrofit2.http.Path
 interface ProductsAPI {
 
     @GET("/products")
-    fun getProducts() : Call<MutableList<GetProductResponseItem>>
+    suspend fun getProducts() :List<GetProductResponseItem>
 
     @GET("products/{id}")
-    fun getProductDetails(@Path("id") id:String): Call<GetProductResponseItem>
+    suspend fun getProductDetails(@Path("id") id:String): GetProductResponseItem
 
     @GET("/products/category/{category}")
-    fun getProductsInSpecificCategory(@Path("category") category:String):Call<MutableList<GetProductResponseItem>>
+    suspend fun getProductsInSpecificCategory(@Path("category") category:String):List<GetProductResponseItem>
 }
