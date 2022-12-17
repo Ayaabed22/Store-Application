@@ -1,11 +1,10 @@
 package com.example.storeapplication.apiService
 
-import com.example.storeapplication.cart.data.GetAllUsersResponse
+import com.example.storeapplication.cart.data.User
 import com.example.storeapplication.signIn.data.SignInRequest
 import com.example.storeapplication.signIn.data.SignInResponse
 import com.example.storeapplication.signUp.data.SignUpRequest
 import com.example.storeapplication.signUp.data.SignUpResponse
-import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -19,8 +18,8 @@ interface UserAPI {
     fun signUp(@Body signUpRequest: SignUpRequest) : SignUpResponse
 
     @GET("/users/{id}")
-    suspend fun getUserData(@Path("id") id:String): GetAllUsersResponse
+    suspend fun getUserData(@Path("id") id:String): User
 
     @GET("/users")
-    suspend fun getAllUsers(): List<GetAllUsersResponse>
+    suspend fun getAllUsers(): List<User>
 }

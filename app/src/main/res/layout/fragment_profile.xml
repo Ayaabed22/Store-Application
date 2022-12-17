@@ -6,7 +6,7 @@
     <data>
         <variable
             name="userData"
-            type="com.example.storeapplication.cart.data.GetAllUsersResponse" />
+            type="com.example.storeapplication.cart.data.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

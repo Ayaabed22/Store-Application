@@ -1,5 +1,5 @@
 package com.example.storeapplication.search
-import android.annotation.SuppressLint
+
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -10,19 +10,21 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.storeapplication.home.data.GetProductResponseItem
+import com.example.storeapplication.home.data.Product
 import com.example.storeapplication.databinding.FragmentSearchBinding
-import com.example.storeapplication.favourite.ui.ItemClick
+import com.example.storeapplication.favourite.data.Favourite
+import com.example.storeapplication.favourite.ui.ClickListener
+import com.example.storeapplication.favourite.ui.FavouriteViewModel
 import com.example.storeapplication.home.ui.HomeViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-
-class FragmentSearch : Fragment(),ItemClick {
+class FragmentSearch : Fragment(), ClickListener, SearchView.OnQueryTextListener {
     lateinit var binding: FragmentSearchBinding
-    var productsList = arrayListOf<GetProductResponseItem>()
-    var tempList= arrayListOf<GetProductResponseItem>()
-    private val homeViewModel:HomeViewModel by viewModels()
+    private var productsList = arrayListOf<Product>()
+    private var tempList = arrayListOf<Product>()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val favouriteViewModel: FavouriteViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,38 +39,13 @@ class FragmentSearch : Fragment(),ItemClick {
         super.onViewCreated(view, savedInstanceState)
 
         getProductsFromApI()
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{ /*TODO: this object could be extracted*/
-            override fun onQueryTextSubmit(query: String?): Boolean {
-               return  false
-            }
+        binding.searchView.setOnQueryTextListener(this)
 
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onQueryTextChange(newText: String?): Boolean {
-                tempList.clear()
-                val searchText = newText?.lowercase(Locale.getDefault())
-                    if (searchText?.isNotEmpty() == true){
-                        productsList.forEach { productItem->
-                            if (productItem.title.lowercase(Locale.getDefault()).contains(searchText)){
-                                tempList.add(productItem)
-                            }
-                        }
-                        binding.searchRecyclerView.adapter?.notifyDataSetChanged()
-                        showProductsOnRecyclerView(tempList)
-                    }
-                    else{
-                        tempList.clear()
-                        tempList.addAll(productsList)
-                        binding.searchRecyclerView.adapter?.notifyDataSetChanged()
-                    }
-                return false
-            }
-
-        })
     }
 
     private fun getProductsFromApI() {
         homeViewModel.getProducts()
-        homeViewModel.itemList.observe(viewLifecycleOwner) {
+        homeViewModel.productList.observe(viewLifecycleOwner) {
             it?.let { productsList.addAll(it) }
             tempList.addAll(productsList)
             showProductsOnRecyclerView(productsList)
@@ -76,19 +53,39 @@ class FragmentSearch : Fragment(),ItemClick {
         }
     }
 
-
-    private fun showProductsOnRecyclerView(productsList: ArrayList<GetProductResponseItem>) {
+    private fun showProductsOnRecyclerView(productsList: ArrayList<Product>) {
         val adapterSearchView = SearchViewAdapter(productsList, this)
         binding.searchRecyclerView.adapter = adapterSearchView
     }
 
 
-    override fun favouriteClickListener(id: Int, name: String, price: Double, image: String) {
+    override fun onFavouriteIconClick(favourite: Favourite) {
+//        favouriteViewModel.insertFavourite(favourite)
     }
 
-    override fun productClickListener(id: Int) {
-        val action = FragmentSearchDirections.actionFragmentSearchToDeatilesFragment(id)
-        findNavController().navigate(action)
-     }
+    override fun onProductClick(productID: Int) {
+        findNavController().navigate(FragmentSearchDirections.actionFragmentSearchToDeatilesFragment(productID))
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean { return false }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        tempList.clear()
+        val searchText = newText?.lowercase(Locale.getDefault())
+        if (searchText?.isNotEmpty() == true) {
+            productsList.forEach { productItem ->
+                if (productItem.title.lowercase(Locale.getDefault()).contains(searchText)) {
+                    tempList.add(productItem)
+                }
+            }
+            binding.searchRecyclerView.adapter?.notifyDataSetChanged()
+            showProductsOnRecyclerView(tempList)
+        } else {
+            tempList.clear()
+            tempList.addAll(productsList)
+            binding.searchRecyclerView.adapter?.notifyDataSetChanged()
+        }
+        return false
+    }
 }
 

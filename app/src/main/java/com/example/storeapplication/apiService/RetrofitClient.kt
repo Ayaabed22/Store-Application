@@ -1,4 +1,4 @@
-package com.example.storeapplication
+package com.example.storeapplication.apiService
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,7 +15,6 @@ import retrofit2.converter.gson.GsonConverterFactory
                     .baseUrl("https://fakestoreapi.com/")
                     .build()
             }
-
             return retrofit
         }
 }

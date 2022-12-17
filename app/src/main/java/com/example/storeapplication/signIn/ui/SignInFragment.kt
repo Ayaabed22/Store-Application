@@ -9,12 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.storeapplication.R
-import com.example.storeapplication.cart.data.GetAllUsersResponse
 import com.example.storeapplication.databinding.FragmentSigninBinding
-import com.example.storeapplication.utils.MySharedPreferences
-import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_String
-import com.example.storeapplication.utils.MySharedPreferences.KEY_MY_SHARED_BOOLEAN_LOGIN
-import com.google.gson.Gson
 
 class SignInFragment : Fragment() {
 
@@ -25,7 +20,6 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentSigninBinding.inflate(inflater,container,false)
         return binding.root
     }

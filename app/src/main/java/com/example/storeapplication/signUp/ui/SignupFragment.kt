@@ -9,20 +9,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.example.storeapplication.R
 import com.example.storeapplication.databinding.FragmentSignupBinding
-import com.example.storeapplication.home.ui.HomeViewModel
-import com.example.storeapplication.signIn.ui.SignInViewModel
 import com.example.storeapplication.signUp.data.Address
 import com.example.storeapplication.signUp.data.Name
 import com.example.storeapplication.signUp.data.SignUpRequest
 
-@Suppress("IMPLICIT_CAST_TO_ANY")
 class SignupFragment : Fragment() {
     private lateinit var binding: FragmentSignupBinding
     private val signUpViewModel: SignUpViewModel by viewModels()
-    private lateinit var view1: View
-
     private var fragmentContext: Context?=null
 
     override fun onAttach(context: Context) {
@@ -39,7 +33,6 @@ class SignupFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentSignupBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -77,7 +70,6 @@ class SignupFragment : Fragment() {
         }
 
         else ->makeToast("Register Failed")
-
     }
 
     private fun makeToast(text:String){

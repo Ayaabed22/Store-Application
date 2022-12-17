@@ -4,11 +4,11 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.storeapplication.RetrofitClient
+import com.example.storeapplication.apiService.RetrofitClient
 import com.example.storeapplication.apiService.UserAPI
-import com.example.storeapplication.cart.data.GetAllUsersResponse
+import com.example.storeapplication.cart.data.User
 import com.example.storeapplication.signIn.data.SignInRequest
-import com.example.storeapplication.utils.Const.Companion.errorHandler
+import com.example.storeapplication.utils.ErrorHandler.errorHandler
 import com.example.storeapplication.utils.MySharedPreferences
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 
 class SignInViewModel:ViewModel() {
     val isSuccessfulAuthentication = MutableLiveData<Boolean>()
-    var userData = MutableLiveData<GetAllUsersResponse?>()
+    var userData = MutableLiveData<User?>()
     private val client = RetrofitClient.getInstance()!!.create(UserAPI::class.java)
 
 
@@ -45,7 +45,7 @@ class SignInViewModel:ViewModel() {
         client.getAllUsers().find { it.username == userName }
     }
 
-    private fun safeUserDataOnSP(user:GetAllUsersResponse?,context: Context?) {
+    private fun safeUserDataOnSP(user:User?, context: Context?) {
         val gson = Gson()
         val json = gson.toJson(user)
         MySharedPreferences.getPrefs(context)
