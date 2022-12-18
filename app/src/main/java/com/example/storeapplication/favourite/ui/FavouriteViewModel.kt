@@ -10,21 +10,23 @@ import com.example.storeapplication.favourite.data.Favourite
 import com.example.storeapplication.favourite.data.FavouriteDatabase
 import com.example.storeapplication.favourite.data.FavRepository
 import com.example.storeapplication.utils.ErrorHandler.errorHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavouriteViewModel(application: Application):AndroidViewModel(application) {
     private val favRepository:FavRepository
-    var favouriteList :LiveData<MutableList<Favourite>> = MutableLiveData<MutableList<Favourite>>(mutableListOf())
+    var favouriteList :MutableLiveData<MutableList<Favourite>> = MutableLiveData(mutableListOf())
 
     init {
         val dao = FavouriteDatabase.getDatabaseInstance(application).favouriteDao()
         favRepository = FavRepository(dao)
+        viewModelScope.launch {
+            val favList = favRepository.getFavourites()
+            withContext(Dispatchers.Main) { favouriteList.value = favList.toMutableList() }
+        }
     }
 
-    fun getFavourites(){
-        var favouriteItem = favRepository.getFavourites.value?.toMutableList()
-        favouriteList.value?.addAll(favouriteItem?: emptyList())
-    }
     private fun insertFavourite(favourite: Favourite){
         viewModelScope.launch (errorHandler) {
             favRepository.insertFavourite(favourite)

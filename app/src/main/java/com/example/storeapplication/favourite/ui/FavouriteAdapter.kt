@@ -28,7 +28,7 @@ class FavouriteAdapter( private val clickListener: ClickListener)
             this.productName.text = favouriteItem.title
             this.productPrice.text = String.format(Const.PRICE_LABEL, favouriteItem.price)
             this.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
-            Picasso.get().load(favouriteItem.image).into(this.productImage)
+            if(favouriteItem.image.isNotEmpty()) Picasso.get().load(favouriteItem.image).into(this.productImage)
 
             this.favouriteIcon.setOnClickListener {
                 holder.binding.favouriteIcon.setImageResource(R.drawable.ic_baseline_favorite_border_24)

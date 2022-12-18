@@ -11,7 +11,7 @@ interface FavouriteDao {
     suspend fun insertFavouriteItem(favourite: Favourite)
 
     @Query("SELECT * FROM Favourite")
-    fun getFavourites():LiveData<List<Favourite>>
+    suspend fun getFavourites() : List<Favourite>
 
     @Query("DELETE FROM Favourite WHERE id = :favouriteItemId")
     suspend fun deleteFavouriteItem(favouriteItemId: Int)

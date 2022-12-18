@@ -37,12 +37,12 @@ class FavouriteFragment : Fragment(), ClickListener {
         binding.favouriteRV.adapter = favouriteAdapter
 
         setListToAdapter()
-        favouriteViewModel.getFavourites()
     }
 
     private fun setListToAdapter() {
-        favouriteViewModel.favouriteList.observe(viewLifecycleOwner) {favouriteList->
+        favouriteViewModel.favouriteList.observe(viewLifecycleOwner) { favouriteList ->
             favouriteAdapter.setFavouriteList(favouriteList)
+            favouriteAdapter.notifyDataSetChanged()
         }
     }
 

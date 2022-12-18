@@ -8,7 +8,9 @@ class FavRepository(private val dao: FavouriteDao) {
         dao.insertFavouriteItem(favourite)
     }
 
-    val getFavourites:LiveData<List<Favourite>> = dao.getFavourites()
+    suspend fun getFavourites(): List<Favourite> {
+        return dao.getFavourites()
+    }
 
     suspend fun deleteFavourite(favouriteItemId: Int){
         dao.deleteFavouriteItem(favouriteItemId)
